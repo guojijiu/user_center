@@ -24,14 +24,12 @@ server 子命令会创建一个UIMS HTTP API服务应用程序。
 }
 
 var (
-	//address string
 	port string
 
 	g errgroup.Group
 )
 
 func init() {
-	//CMDuimsServer.Flag.StringVar(&address, "a", "0.0.0.0", "Listen address")
 	CMDuimsServer.Flag.StringVar(&port, "p", "", "Listen port")
 	command.CMD.Register(CMDuimsServer)
 }
@@ -66,11 +64,6 @@ func createUIMSapiServer(cmd *command.Command, args []string) int {
 		cmd.Error(err.Error())
 		log.Fatal(err)
 	}
-
-	//err = router.Run(port)
-	//if err != nil {
-	//	cmd.Error(err.Error())
-	//}
 
 	// Wait for interrupt signal to gracefully shutdown the server with
 	// a timeout of 5 seconds.

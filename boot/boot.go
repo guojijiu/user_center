@@ -38,8 +38,6 @@ func Boot() {
 		app.SetEngineRouter(router)
 	}
 
-	//validator.Init()
-
 	app.Booted = true
 
 	migrate()
