@@ -3,7 +3,6 @@ package routes
 import (
 	"github.com/gin-gonic/gin"
 	"io"
-	"os"
 	"user_center/app"
 	"user_center/app/Http/Middleware"
 	"user_center/config"
@@ -19,8 +18,8 @@ func InitRouter() *gin.Engine {
 		gin.DefaultWriter = io.MultiWriter(glog.Channel("gin").Out)
 	} else {
 		// 非测试或命令将输出路由信息到屏幕上
-		gin.ForceConsoleColor()
-		gin.DefaultWriter = io.MultiWriter(glog.Channel("gin").Out, os.Stdout)
+		//gin.ForceConsoleColor()
+		//gin.DefaultWriter = io.MultiWriter(glog.Channel("gin").Out, os.Stdout)
 	}
 
 	router = gin.New()
