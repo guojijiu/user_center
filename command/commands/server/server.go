@@ -14,14 +14,16 @@ import (
 	"user_center/config"
 )
 
-var CMDuimsServer = &command.Command{
-	UsageLine: "server [port]",
-	Short:     "创建一个UIMS HTTP API服务",
-	Long: `
-server 子命令会创建一个UIMS HTTP API服务应用程序。
+var (
+	CmdUserCenterServer = &command.Command{
+		UsageLine: "server [port]",
+		Short:     "创建一个USER_CENTER HTTP API服务",
+		Long: `
+server 子命令会创建一个USER_CENTER HTTP API服务应用程序。
 `,
-	Run:    createUIMSapiServer,
-}
+		Run: createUserCenterAPIServer,
+	}
+)
 
 var (
 	port string
@@ -30,12 +32,12 @@ var (
 )
 
 func init() {
-	CMDuimsServer.Flag.StringVar(&port, "p", "", "Listen port")
-	command.CMD.Register(CMDuimsServer)
+	CmdUserCenterServer.Flag.StringVar(&port, "p", "", "Listen port")
+	command.CMD.Register(CmdUserCenterServer)
 }
 
-// createUIMSapiServer 创建一个 UIMS API 服务器
-func createUIMSapiServer(cmd *command.Command, args []string) int {
+// createUserCenterAPIServer 创建一个 USER_CENTER API 服务器
+func createUserCenterAPIServer(cmd *command.Command, args []string) int {
 	var err error
 	if len(args) > 0 {
 		err = cmd.Flag.Parse(args[1:])
@@ -70,7 +72,7 @@ func createUIMSapiServer(cmd *command.Command, args []string) int {
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
-	cmd.Info("Shutdown uims api server...")
+	cmd.Info("Shutdown user_center api server...")
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
