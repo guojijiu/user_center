@@ -16,6 +16,7 @@ var (
 	AppPath      = ""
 	TestPath     = ""
 	StoragePath  = ""
+	DatabasePath = ""
 	Booted       = false
 )
 
@@ -24,6 +25,7 @@ func init() {
 	AppPath = appPath
 	TestPath = fmt.Sprintf("%s/tests", appPath)
 	StoragePath = fmt.Sprintf("%s/storage", appPath)
+	DatabasePath = fmt.Sprintf("%s/database", appPath)
 }
 
 func SetEngineRouter(engine *gin.Engine) {
@@ -36,6 +38,10 @@ func GetEngineRouter() *gin.Engine {
 
 func GetStoragePath(path string) string {
 	return filepath.Join(StoragePath, path)
+}
+
+func GetDatabasePath(path string) string {
+	return filepath.Join(DatabasePath, path)
 }
 
 // 获取项目基础路径的绝对值

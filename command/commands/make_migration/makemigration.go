@@ -1,4 +1,4 @@
-package makemigration
+package make_migration
 
 import (
 	"bytes"
@@ -26,8 +26,8 @@ func init() {
 func RunMigration(cmd *command.Command, args []string) int {
 	name := args[0]
 	fileName := time.Now().Format("20060102_150405_") + tool.Camel2Case(name) + ".go"
-	p := path.Join(app.AppPath, "migrate_file", fileName)
-	
+	p := path.Join(app.DatabasePath, "MigrationFile", fileName)
+
 	if tool.PathExist(p) {
 		cmd.Error(fmt.Sprintf("file %s aleardy exist", p))
 		return 1
@@ -53,7 +53,7 @@ func RunMigration(cmd *command.Command, args []string) int {
 
 func usageDoc() string {
 	return fmt.Sprintf(`
-创建迁移文件到文件夹 migrate_file
+创建迁移文件到文件夹 database/MigrationFile
 make:migration [name]
 `)
 }
@@ -61,12 +61,12 @@ make:migration [name]
 func Template(structName string, fileName string) (string, error) {
 	t := template.New("t")
 	t, err := t.Parse(`
-package migrate_file
+package MigrationFile
 
 import (
 	"fmt"
-	"uims/internal/model"
-	"uims/pkg/db"
+	"user_center/app/Model"
+	"user_center/pkg/db"
 )
 
 type {{.struct_name}} struct {

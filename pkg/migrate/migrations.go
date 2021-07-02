@@ -23,8 +23,13 @@ type MigrateFile interface {
 
 // 定义的迁移文件需要在这里注册
 var MigrateFiles = []MigrateFile{
-	MigrationFile.CreateUsersTableMigrate{},
+	MigrationFile.Create_user_table{},
+	MigrationFile.Create_user_information_table{},
+	MigrationFile.Create_client_table{},
+	MigrationFile.Create_role_table{},
+	MigrationFile.Create_permission_table{},
 }
+
 // 获取需要迁移的 migrateFiles
 // files 有, migrate_file 里没有的数据
 func GetNeedMigrateFiles(migrateFiles []MigrateFile) []MigrateFile {

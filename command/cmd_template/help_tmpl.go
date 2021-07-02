@@ -6,7 +6,7 @@ import (
 	_ "user_center/command/commands/app_key_generator"
 	_ "user_center/command/commands/app_rsakey_generator"
 	_ "user_center/command/commands/make"
-	_ "user_center/command/commands/makemigration"
+	_ "user_center/command/commands/make_migration"
 	_ "user_center/command/commands/migrator"
 	_ "user_center/command/commands/server"
 )

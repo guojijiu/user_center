@@ -12,8 +12,8 @@ const APP_KEY_NAME = "APP_KEY"
 
 var CMDappKeyGenerator = &command.Command{
 	UsageLine: "generate:key",
-	Short:     "user_permission应用自动生成工具",
-	Long:      `generate:key 命令会创建一个user_permission应用程序密钥，用于加解密。`,
+	Short:     "user_center应用自动生成工具",
+	Long:      `generate:key 命令会创建一个user_center应用程序密钥，用于加解密。`,
 	Run:       createUIMSappKey,
 }
 

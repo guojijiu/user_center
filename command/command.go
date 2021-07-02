@@ -87,7 +87,7 @@ func (cmd *CMDManager) Get(name string) (*Command, bool) {
 
 var CMD CMDManager
 
-var cmdUsage = `Use {{printf "uims help %s" .Name | bold}} for more information.{{endline}}`
+var cmdUsage = `Use {{printf "user_center help %s" .Name | bold}} for more information.{{endline}}`
 
 // Name returns the command's name: the first word in the Usage line.
 func (c *Command) Name() string {
