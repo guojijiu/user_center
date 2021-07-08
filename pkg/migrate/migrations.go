@@ -23,11 +23,14 @@ type MigrateFile interface {
 
 // 定义的迁移文件需要在这里注册
 var MigrateFiles = []MigrateFile{
-	MigrationFile.Create_user_table{},
-	MigrationFile.Create_user_information_table{},
-	MigrationFile.Create_client_table{},
-	MigrationFile.Create_role_table{},
-	MigrationFile.Create_permission_table{},
+	MigrationFile.CreateUserTable{},
+	MigrationFile.CreateUserInformationTable{},
+	MigrationFile.CreateClientTable{},
+	MigrationFile.CreateRoleTable{},
+	MigrationFile.CreatePermissionTable{},
+	MigrationFile.CreateMappingUserClientTable{},
+	MigrationFile.CreateMappingUserRoleTable{},
+	MigrationFile.CreateMappingRolePermissionTable{},
 }
 
 // 获取需要迁移的 migrateFiles

@@ -7,14 +7,14 @@ import (
 	"user_center/pkg/db"
 )
 
-type Create_user_information_table struct {
+type CreateUserInformationTable struct {
 }
 
-func (Create_user_information_table) Key() string {
+func (CreateUserInformationTable) Key() string {
 	return "20210702_103129_create_user_information_table.go"
 }
 
-func (Create_user_information_table) Up() (err error) {
+func (CreateUserInformationTable) Up() (err error) {
 	if db.Def().HasTable(Model.UserInformation{}.TableName()) {
 		err = fmt.Errorf("uc_user_information table alreay exist")
 		return
@@ -25,7 +25,7 @@ func (Create_user_information_table) Up() (err error) {
 	return
 }
 
-func (Create_user_information_table) Down() (err error) {
+func (CreateUserInformationTable) Down() (err error) {
 	err = db.Def().DropTableIfExists(&Model.UserInformation{}).Error
 	return
 }

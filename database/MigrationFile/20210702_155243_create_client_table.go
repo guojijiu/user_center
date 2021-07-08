@@ -7,14 +7,14 @@ import (
 	"user_center/pkg/db"
 )
 
-type Create_client_table struct {
+type CreateClientTable struct {
 }
 
-func (Create_client_table) Key() string {
+func (CreateClientTable) Key() string {
 	return "20210702_155243_create_client_table.go"
 }
 
-func (Create_client_table) Up() (err error) {
+func (CreateClientTable) Up() (err error) {
 	if db.Def().HasTable(Model.Client{}.TableName()) {
 		err = fmt.Errorf("uc_client table alreay exist")
 		return
@@ -25,7 +25,7 @@ func (Create_client_table) Up() (err error) {
 	return
 }
 
-func (Create_client_table) Down() (err error) {
+func (CreateClientTable) Down() (err error) {
 	err = db.Def().DropTableIfExists(&Model.Client{}).Error
 	return
 }

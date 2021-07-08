@@ -7,7 +7,7 @@ import (
 
 type Permission struct {
 	gorm.Model
-	ClientID      uint      `gorm:"type:int(11);not null;default:0;index:index_client_id;comment:'所属客户端'" json:"client_id"`
+	ClientID      uint      `gorm:"type:int(11);not null;default:0;index:idx_client_id;comment:'所属客户端'" json:"client_id"`
 	Mark          string    `gorm:"type:varchar(32);not null;default:'';unique;comment:'权限唯一标识'" json:"mark"`
 	Name          string    `gorm:"type:varchar(16);not null;default:'';comment:'权限名称'" json:"name"`
 	Sort          uint      `gorm:"type:int(11);default:0;comment:'排序序号'" json:"sort"`

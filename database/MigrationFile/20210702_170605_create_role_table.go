@@ -7,14 +7,14 @@ import (
 	"user_center/pkg/db"
 )
 
-type Create_role_table struct {
+type CreateRoleTable struct {
 }
 
-func (Create_role_table) Key() string {
+func (CreateRoleTable) Key() string {
 	return "20210702_170605_create_role_table.go"
 }
 
-func (Create_role_table) Up() (err error) {
+func (CreateRoleTable) Up() (err error) {
 	if db.Def().HasTable(Model.Role{}.TableName()) {
 		err = fmt.Errorf("uc_role table alreay exist")
 		return
@@ -25,7 +25,7 @@ func (Create_role_table) Up() (err error) {
 	return
 }
 
-func (Create_role_table) Down() (err error) {
+func (CreateRoleTable) Down() (err error) {
 	err = db.Def().DropTableIfExists(&Model.Role{}).Error
 	return
 }

@@ -7,14 +7,14 @@ import (
 	"user_center/pkg/db"
 )
 
-type Create_user_table struct {
+type CreateUserTable struct {
 }
 
-func (Create_user_table) Key() string {
+func (CreateUserTable) Key() string {
 	return "20210701_113148_create_user_table.go"
 }
 
-func (Create_user_table) Up() (err error) {
+func (CreateUserTable) Up() (err error) {
 	if db.Def().HasTable(Model.User{}.TableName()) {
 		err = fmt.Errorf("uc_user_auth table alreay exist")
 		return
@@ -25,7 +25,7 @@ func (Create_user_table) Up() (err error) {
 	return
 }
 
-func (Create_user_table) Down() (err error) {
+func (CreateUserTable) Down() (err error) {
 	err = db.Def().DropTableIfExists(&Model.User{}).Error
 	return
 }
