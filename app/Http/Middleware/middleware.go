@@ -17,6 +17,7 @@ func Init() {
 		Logger(),
 	}
 	Middleware.Api = []gin.HandlerFunc{
+		Logger(),
 		ApiTestMiddleware(),
 	}
 

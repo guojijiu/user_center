@@ -2,7 +2,7 @@ package Middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	resp "user_center/app/Http/Controllers/Responses"
+	"user_center/app/Http/Controllers/API/Admin/Responses"
 	"user_center/pkg/jwt"
 )
 
@@ -12,7 +12,7 @@ func BackJWTMiddleware() gin.HandlerFunc {
 		token := c.Request.Header.Get("token")
 		if token == "" {
 			c.Abort()
-			resp.TokenFailed(c, "请求未携带token，无权限访问")
+			Responses.TokenFailed(c, "请求未携带token，无权限访问")
 			return
 		}
 		//log.Print("get token: ", token)
@@ -23,11 +23,11 @@ func BackJWTMiddleware() gin.HandlerFunc {
 		if err != nil {
 			if err == jwt.TokenExpired {
 				c.Abort()
-				resp.TokenFailed(c, "授权已过期")
+				Responses.TokenFailed(c, "授权已过期")
 				return
 			}
 			c.Abort()
-			resp.TokenFailed(c, err.Error())
+			Responses.TokenFailed(c, err.Error())
 			return
 		}
 		// 继续交由下一个路由处理,并将解析出的信息传递下去

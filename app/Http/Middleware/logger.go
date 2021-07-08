@@ -6,7 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 	log "github.com/sirupsen/logrus"
 	"io/ioutil"
-	"strings"
 	"time"
 	"user_center/pkg/glog"
 )
@@ -28,17 +27,6 @@ func (w bodyLogWriter) WriteString(s string) (int, error) {
 // 记录请求与响应的数据
 func Logger() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		if strings.Contains(c.Request.URL.Path, ".js") ||
-			strings.Contains(c.Request.URL.Path, ".css") ||
-			strings.Contains(c.Request.URL.Path, ".jpg") ||
-			strings.Contains(c.Request.URL.Path, ".map") ||
-			strings.Contains(c.Request.URL.Path, ".png") ||
-			strings.Contains(c.Request.URL.Path, "html") ||
-			strings.Contains(c.Request.URL.Path, ".ico") {
-			// js, css 不需要日志
-			c.Next()
-			return
-		}
 		bodyLogWriter := &bodyLogWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
 		c.Writer = bodyLogWriter
 

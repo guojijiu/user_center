@@ -8,6 +8,8 @@ import (
 	"user_center/config"
 	"user_center/pkg/glog"
 	"user_center/routes/api"
+	"user_center/routes/api/admin"
+	"user_center/routes/api/web"
 )
 
 func InitRouter() *gin.Engine {
@@ -35,5 +37,7 @@ func loadRoutes(router *gin.Engine) {
 	router.Use(Middleware.Cors())
 	// 注册请求API所需的路由
 	api.LoadApi(router)
+	admin.LoadAdmin(router)
+	web.LoadWeb(router)
 
 }

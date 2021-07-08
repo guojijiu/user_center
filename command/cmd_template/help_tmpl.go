@@ -11,7 +11,7 @@ import (
 	_ "user_center/command/commands/server"
 )
 
-var usageTemplate = `user_center is a user and authority management system based on THE GIN framework.
+var usageTemplate = `user_center is a user_repository and authority management system based on THE GIN framework.
 
 {{"用法(注意：如果user_center可执行文件不在系统PATH中，请使用<user_center所在的目录>/user_center)" | headline}}
     {{"user_center command [arguments]" | bold}}
