@@ -15,7 +15,7 @@ func IsMobile(fl validator.FieldLevel) bool {
 
 // TranslationFunc is the function type used to register or override
 //// custom translations
-//type TranslationFunc func(ut ut.Translator, Feature FieldError) string
+//type TranslationFunc func(ut ut.Translator, fe FieldError) string
 //
 //// RegisterTranslationsFunc allows for registering of translations
 //// for a 'ut.Translator' for use within the 'TranslationFunc'

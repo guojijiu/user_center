@@ -1,4 +1,4 @@
-package Admin
+package UserController
 
 import (
 	"fmt"
@@ -6,6 +6,7 @@ import (
 	"user_center/app/Http/Controllers/API/Admin/Application/user_application"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/StoreUser"
 	"user_center/app/Http/Controllers/API/Admin/Responses"
+	validator2 "user_center/app/validator"
 	"user_center/pkg/glog"
 )
 
@@ -18,10 +19,15 @@ func Store(c *gin.Context) {
 		return
 	}
 
+	if err = validator2.RequestCheck(&req); err != nil {
+		Responses.BadReq(c, err)
+		return
+	}
+
 	res, storeErr := user_application.StoreUserApp(&req)
 
 	if res == false && storeErr != nil {
-		Responses.Failed(c, fmt.Sprintf("%s %s", "add user fail", err), nil)
+		Responses.Failed(c, fmt.Sprintf("%s %s", "add user fail", storeErr), nil)
 		return
 	}
 

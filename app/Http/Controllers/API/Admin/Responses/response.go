@@ -6,7 +6,7 @@ import (
 	"github.com/mailru/easyjson/buffer"
 	"gopkg.in/go-playground/validator.v9"
 	"net/http"
-	validator2 "user_center/app/Http/Validator"
+	validator2 "user_center/app/validator"
 )
 
 const CodeSuccess = 0

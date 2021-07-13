@@ -1,8 +1,8 @@
 package StoreUser
 
 type StoreReq struct {
-	Account  string `binding:"required,string,min:4,max:64" comment:"账号" json:"account"`
-	Phone    string `binding:"required_mobile" comment:"手机号" json:"phone"`
-	Email    string `binding:"required,string,email" comment:"邮箱" json:"email"`
-	Passwd string `binding:"required,string,min:6,max:64" comment:"密码" json:"passwd"`
+	Account string `binding:"required" validate:"max=2,min=2" comment:"账号" json:"account"`
+	Phone   string `binding:"required" validate:"max=2,min=2" comment:"手机号" json:"phone"`
+	Email   string `binding:"required,email" comment:"邮箱" json:"email"`
+	Passwd  string `binding:"required" comment:"密码" json:"passwd"`
 }
