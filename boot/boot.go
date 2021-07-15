@@ -47,10 +47,9 @@ func Boot() {
 }
 
 func Destroy() {
-	db.Close()
 	glog.Close()
 }
 
 func migrate() {
-	db.Def().AutoMigrate(&migrate2.Migration{})
+	_ = db.Def().AutoMigrate(&migrate2.Migration{})
 }

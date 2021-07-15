@@ -1,4 +1,3 @@
-
 package MigrationFile
 
 import (
@@ -15,17 +14,23 @@ func (CreateMappingUserRoleTable) Key() string {
 }
 
 func (CreateMappingUserRoleTable) Up() (err error) {
-	if db.Def().HasTable(Model.UserRole{}.TableName()) {
+	if db.Def().Migrator().HasTable(Model.UserRole{}.TableName()) {
 		err = fmt.Errorf("mapping_user_role table alreay exist")
 		return
 	}
-	err = db.Def().
+	if createErr := db.Def().
 		Set("gorm:table_options", "CHARSET=utf8mb4,COMMENT='用户角色关联表'").
-		CreateTable(&Model.UserRole{}).Error
+		Migrator().
+		CreateTable(&Model.UserRole{}); createErr != nil {
+		_ = fmt.Errorf(createErr.Error())
+		return
+	}
 	return
 }
 
 func (CreateMappingUserRoleTable) Down() (err error) {
-	err = db.Def().DropTableIfExists(&Model.UserRole{}).Error
+	if dropErr := db.Def().Migrator().DropTable(&Model.UserRole{}); dropErr != nil {
+		_ = fmt.Errorf(dropErr.Error())
+	}
 	return
 }

@@ -1,4 +1,3 @@
-
 package MigrationFile
 
 import (
@@ -15,17 +14,22 @@ func (CreateClientTable) Key() string {
 }
 
 func (CreateClientTable) Up() (err error) {
-	if db.Def().HasTable(Model.Client{}.TableName()) {
+	if db.Def().Migrator().HasTable(Model.Client{}.TableName()) {
 		err = fmt.Errorf("uc_client table alreay exist")
 		return
 	}
-	err = db.Def().
+	if createErr := db.Def().
 		Set("gorm:table_options", "CHARSET=utf8mb4,COMMENT='客户端表'").
-		CreateTable(&Model.Client{}).Error
+		Migrator().
+		CreateTable(&Model.Client{}); createErr != nil {
+		_ = fmt.Errorf(createErr.Error())
+	}
 	return
 }
 
 func (CreateClientTable) Down() (err error) {
-	err = db.Def().DropTableIfExists(&Model.Client{}).Error
+	if dropErr := db.Def().Migrator().DropTable(&Model.Client{}); dropErr != nil {
+		_ = fmt.Errorf(dropErr.Error())
+	}
 	return
 }

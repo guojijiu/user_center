@@ -1,4 +1,3 @@
-
 package MigrationFile
 
 import (
@@ -15,17 +14,22 @@ func (CreateRoleTable) Key() string {
 }
 
 func (CreateRoleTable) Up() (err error) {
-	if db.Def().HasTable(Model.Role{}.TableName()) {
+	if db.Def().Migrator().HasTable(Model.Role{}.TableName()) {
 		err = fmt.Errorf("uc_role table alreay exist")
 		return
 	}
-	err = db.Def().
+	if createErr := db.Def().
 		Set("gorm:table_options", "CHARSET=utf8mb4,COMMENT='角色表'").
-		CreateTable(&Model.Role{}).Error
+		Migrator().
+		CreateTable(&Model.Role{}); createErr != nil {
+		_ = fmt.Errorf(createErr.Error())
+	}
 	return
 }
 
 func (CreateRoleTable) Down() (err error) {
-	err = db.Def().DropTableIfExists(&Model.Role{}).Error
+	if dropErr := db.Def().Migrator().DropTable(&Model.Role{}); dropErr != nil {
+		_ = fmt.Errorf(dropErr.Error())
+	}
 	return
 }

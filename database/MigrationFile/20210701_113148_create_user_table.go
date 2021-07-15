@@ -1,4 +1,3 @@
-
 package MigrationFile
 
 import (
@@ -15,17 +14,23 @@ func (CreateUserTable) Key() string {
 }
 
 func (CreateUserTable) Up() (err error) {
-	if db.Def().HasTable(Model.User{}.TableName()) {
+	if db.Def().Migrator().HasTable(Model.User{}.TableName()) {
 		err = fmt.Errorf("uc_user_auth table alreay exist")
 		return
 	}
-	err = db.Def().
+	if createErr := db.Def().
 		Set("gorm:table_options", "CHARSET=utf8mb4,COMMENT='用户登录鉴权表'").
-		CreateTable(&Model.User{}).Error
+		Migrator().
+		CreateTable(&Model.User{}); createErr != nil {
+		_ = fmt.Errorf(createErr.Error())
+		return
+	}
 	return
 }
 
 func (CreateUserTable) Down() (err error) {
-	err = db.Def().DropTableIfExists(&Model.User{}).Error
+	if dropErr := db.Def().Migrator().DropTable(&Model.User{}); dropErr != nil {
+		_ = fmt.Errorf(dropErr.Error())
+	}
 	return
 }

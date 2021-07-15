@@ -14,17 +14,23 @@ func (CreateMappingRolePermissionTable) Key() string {
 }
 
 func (CreateMappingRolePermissionTable) Up() (err error) {
-	if db.Def().HasTable(Model.RolePermission{}.TableName()) {
+	if db.Def().Migrator().HasTable(Model.RolePermission{}.TableName()) {
 		err = fmt.Errorf("mapping_role_permission table alreay exist")
 		return
 	}
-	err = db.Def().
+	if createErr := db.Def().
 		Set("gorm:table_options", "CHARSET=utf8mb4,COMMENT='角色权限关联表'").
-		CreateTable(&Model.RolePermission{}).Error
+		Migrator().
+		CreateTable(&Model.RolePermission{}); createErr != nil {
+		_ = fmt.Errorf(createErr.Error())
+		return
+	}
 	return
 }
 
 func (CreateMappingRolePermissionTable) Down() (err error) {
-	err = db.Def().DropTableIfExists(&Model.RolePermission{}).Error
+	if dropErr := db.Def().Migrator().DropTable(&Model.RolePermission{}); dropErr != nil {
+		_ = fmt.Errorf(dropErr.Error())
+	}
 	return
 }

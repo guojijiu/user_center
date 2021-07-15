@@ -1,4 +1,3 @@
-
 package MigrationFile
 
 import (
@@ -15,17 +14,23 @@ func (CreateUserInformationTable) Key() string {
 }
 
 func (CreateUserInformationTable) Up() (err error) {
-	if db.Def().HasTable(Model.UserInformation{}.TableName()) {
+	if db.Def().Migrator().HasTable(Model.UserInformation{}.TableName()) {
 		err = fmt.Errorf("uc_user_information table alreay exist")
 		return
 	}
-	err = db.Def().
+	if createErr := db.Def().
 		Set("gorm:table_options", "CHARSET=utf8mb4,COMMENT='用户信息表'").
-		CreateTable(&Model.UserInformation{}).Error
+		Migrator().
+		CreateTable(&Model.UserInformation{}); createErr != nil {
+		_ = fmt.Errorf(createErr.Error())
+		return
+	}
 	return
 }
 
 func (CreateUserInformationTable) Down() (err error) {
-	err = db.Def().DropTableIfExists(&Model.UserInformation{}).Error
+	if dropErr := db.Def().Migrator().DropTable(&Model.UserInformation{}); dropErr != nil {
+		_ = fmt.Errorf(dropErr.Error())
+	}
 	return
 }

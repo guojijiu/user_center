@@ -15,17 +15,23 @@ func (CreatePermissionTable) Key() string {
 }
 
 func (CreatePermissionTable) Up() (err error) {
-	if db.Def().HasTable(Model.Permission{}.TableName()) {
+	if db.Def().Migrator().HasTable(Model.Permission{}.TableName()) {
 		err = fmt.Errorf("uc_permission table alreay exist")
 		return
 	}
-	err = db.Def().
+	if createErr := db.Def().
 		Set("gorm:table_options", "CHARSET=utf8mb4,COMMENT='权限表'").
-		CreateTable(&Model.Permission{}).Error
+		Migrator().
+		CreateTable(&Model.Permission{});createErr !=nil{
+		_ = fmt.Errorf(createErr.Error())
+		return
+	}
 	return
 }
 
 func (CreatePermissionTable) Down() (err error) {
-	err = db.Def().DropTableIfExists(&Model.Permission{}).Error
+	if dropErr := db.Def().Migrator().DropTable(&Model.Permission{}); dropErr != nil {
+		_ = fmt.Errorf(dropErr.Error())
+	}
 	return
 }
