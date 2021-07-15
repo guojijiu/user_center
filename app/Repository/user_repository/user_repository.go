@@ -20,7 +20,7 @@ func (UserRepository) Store(user *Model.User) (bool, error) {
 func (UserRepository) Detail(id uint) (*Model.User, error) {
 	var user Model.User
 	err := db.Def().Where("id = ? AND deleted_at is null", id).First(&user).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+	if err != nil && err.Error() != gorm.ErrRecordNotFound.Error() {
 		return nil, err
 	}
 	return &user, nil
@@ -30,7 +30,8 @@ func (UserRepository) FindByAccount(account string) (*Model.User, error) {
 
 	var user Model.User
 	err := db.Def().Where("account = ? AND deleted_at is null", account).First(&user).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+
+	if err != nil && err.Error() != gorm.ErrRecordNotFound.Error() {
 		return nil, err
 	}
 	return &user, nil
@@ -40,7 +41,7 @@ func (UserRepository) FindByEmail(email string) (*Model.User, error) {
 
 	var user Model.User
 	err := db.Def().Where("email = ? AND deleted_at is null", email).First(&user).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+	if err != nil && err.Error() != gorm.ErrRecordNotFound.Error() {
 		return nil, err
 	}
 	return &user, nil
@@ -50,7 +51,7 @@ func (UserRepository) FindByPhone(phone string) (*Model.User, error) {
 
 	var user Model.User
 	err := db.Def().Where("phone = ? AND deleted_at is null", phone).First(&user).Error
-	if err != nil && err != gorm.ErrRecordNotFound {
+	if err != nil && err.Error() != gorm.ErrRecordNotFound.Error() {
 		return nil, err
 	}
 	return &user, nil
