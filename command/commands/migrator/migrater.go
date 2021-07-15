@@ -127,7 +127,7 @@ func fresh(cmd *command.Command) error {
 // 执行迁移
 func migrate(cmd *command.Command) error {
 	var err error
-	err = db.Def().AutoMigrate(&migrate2.Migration{}).Error
+	err = db.Def().AutoMigrate(&migrate2.Migration{})
 	if err != nil {
 		return errors.Wrap(err, "create migrate table failed")
 	}
