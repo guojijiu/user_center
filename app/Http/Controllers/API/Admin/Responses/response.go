@@ -3,8 +3,8 @@ package Responses
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"github.com/mailru/easyjson/buffer"
-	"gopkg.in/go-playground/validator.v9"
 	"net/http"
 	validator2 "user_center/app/validator"
 )

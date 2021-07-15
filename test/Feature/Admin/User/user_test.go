@@ -28,7 +28,7 @@ func TestMain(m *testing.M) {
 func TestRegister(t *testing.T) {
 	w := httptest.Post("/api/admin/user/store", StoreUser.StoreReq{
 		Account: genid.NewGeneratorData().Name,
-		Phone:   genid.NewGeneratorData().PhoneNum,
+		Phone:   "q2432",
 		Email:   genid.NewGeneratorData().Email,
 		Passwd:  "123456",
 	})

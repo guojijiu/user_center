@@ -2,10 +2,10 @@ package validator
 
 import (
 	"github.com/gin-gonic/gin/binding"
-	zh_cn "github.com/go-playground/locales/zh"
+	"github.com/go-playground/locales/zh"
 	ut "github.com/go-playground/universal-translator"
-	"gopkg.in/go-playground/validator.v9"
-	zh_translations "gopkg.in/go-playground/validator.v9/translations/zh"
+	"github.com/go-playground/validator/v10"
+	zh_translations "github.com/go-playground/validator/v10/translations/zh"
 	"reflect"
 )
 
@@ -29,22 +29,22 @@ var bakedInValidatorsSelfDefined = map[string]struct {
 	},
 }
 
-func init() {
-	if validate, ok := binding.Validator.Engine().(*validator.Validate); ok {
-		Validate = validate
-		zh := zh_cn.New()
-		uni := ut.New(zh, zh)
-		// this is usually know or extracted from http 'Accept-Language' header
-		// also see uni.FindTranslator(...)
+func Init() {
+
+	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
+		Validate = v
+		uni := ut.New(zh.New())
 		Trans, _ = uni.GetTranslator("zh")
-		_ = zh_translations.RegisterDefaultTranslations(Validate, Trans)
 
-		// 将 comment 标签注册为参数的翻译
-		Validate.RegisterTagNameFunc(func(fld reflect.StructField) string {
-			return fld.Tag.Get("comment")
+		//注册翻译器
+		_ = zh_translations.RegisterDefaultTranslations(v, Trans)
+
+		//注册一个函数，获取struct tag里自定义的label作为字段名
+		v.RegisterTagNameFunc(func(fld reflect.StructField) string {
+			name := fld.Tag.Get("comment")
+			return name
 		})
-
-		// 注册自定义验证规则函数及翻译函数
+		//注册自定义函数
 		register()
 	}
 }
@@ -57,11 +57,11 @@ func register() {
 	//}
 
 	// must copy validators for separate validations to be used in each instance
-	for tag, v := range bakedInValidatorsSelfDefined {
+	for tag, valida := range bakedInValidatorsSelfDefined {
 		// no need to error check here, baked in will always be valid
-		_ = Validate.RegisterValidation(tag, v.validateFunc)
+		_ = Validate.RegisterValidation(tag, valida.validateFunc)
 
 		// 注册验证规则的翻译
-		_ = Validate.RegisterTranslation(tag, Trans, v.transErrMsgFunc, v.transFieldFunc)
+		_ = Validate.RegisterTranslation(tag, Trans, valida.transErrMsgFunc, valida.transFieldFunc)
 	}
 }

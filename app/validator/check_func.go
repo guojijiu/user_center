@@ -2,7 +2,7 @@ package validator
 
 import (
 	ut "github.com/go-playground/universal-translator"
-	"gopkg.in/go-playground/validator.v9"
+	"github.com/go-playground/validator/v10"
 )
 
 func IsMobile(fl validator.FieldLevel) bool {

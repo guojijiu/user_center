@@ -4,6 +4,7 @@ import (
 	"log"
 	"user_center/app"
 	"user_center/app/Http/Middleware"
+	validator2 "user_center/app/validator"
 	"user_center/pkg/db"
 	"user_center/pkg/glog"
 	migrate2 "user_center/pkg/migrate"
@@ -37,6 +38,8 @@ func Boot() {
 		router := routes.InitRouter()
 		app.SetEngineRouter(router)
 	}
+	// 初始化自定义验证类
+	validator2.Init()
 
 	app.Booted = true
 
