@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-type User struct {
+type UserAuth struct {
 	gorm.Model
 	UUID      string `gorm:"type:char(32);not null;default:'';unique;comment:'用户UUID'" json:"uuid"`
 	Account   string `gorm:"type:varchar(32);not null;default:'';unique;comment:'登录账号'" json:"account"`
@@ -15,6 +15,6 @@ type User struct {
 	ForbadeAt *time.Time
 }
 
-func (User) TableName() string {
+func (UserAuth) TableName() string {
 	return "uc_user_auth"
 }

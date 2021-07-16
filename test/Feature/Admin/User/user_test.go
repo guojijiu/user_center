@@ -43,7 +43,7 @@ func TestRegister(t *testing.T) {
 }
 
 func TestFindPasswordToken(t *testing.T) {
-	user := &Model.User{}
+	user := &Model.UserAuth{}
 	err := db.Def().First(&user).Error
 	assert.Nil(t, err)
 	assert.NotEmpty(t, user.Phone)

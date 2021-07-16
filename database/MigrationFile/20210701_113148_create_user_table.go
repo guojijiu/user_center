@@ -14,14 +14,14 @@ func (CreateUserTable) Key() string {
 }
 
 func (CreateUserTable) Up() (err error) {
-	if db.Def().Migrator().HasTable(Model.User{}.TableName()) {
+	if db.Def().Migrator().HasTable(Model.UserAuth{}.TableName()) {
 		err = fmt.Errorf("uc_user_auth table alreay exist")
 		return
 	}
 	if createErr := db.Def().
 		Set("gorm:table_options", "CHARSET=utf8mb4,COMMENT='用户登录鉴权表'").
 		Migrator().
-		CreateTable(&Model.User{}); createErr != nil {
+		CreateTable(&Model.UserAuth{}); createErr != nil {
 		_ = fmt.Errorf(createErr.Error())
 		return
 	}
@@ -29,7 +29,7 @@ func (CreateUserTable) Up() (err error) {
 }
 
 func (CreateUserTable) Down() (err error) {
-	if dropErr := db.Def().Migrator().DropTable(&Model.User{}); dropErr != nil {
+	if dropErr := db.Def().Migrator().DropTable(&Model.UserAuth{}); dropErr != nil {
 		_ = fmt.Errorf(dropErr.Error())
 	}
 	return

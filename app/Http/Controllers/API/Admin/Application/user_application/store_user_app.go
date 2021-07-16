@@ -39,7 +39,7 @@ func StoreUserApp(req *StoreUser.StoreReq) (bool, error) {
 	if PassErr != nil {
 		return false, PassErr
 	}
-	var user Model.User
+	var user Model.UserAuth
 
 	user.UUID = uuid.NewV1().String()
 	user.Account = req.Account
