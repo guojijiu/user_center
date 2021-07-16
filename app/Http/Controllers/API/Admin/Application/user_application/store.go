@@ -9,7 +9,7 @@ import (
 	"user_center/pkg/encryption"
 )
 
-func StoreUserApp(req *StoreUser.StoreReq) (bool, error) {
+func Store(req *StoreUser.Req) (bool, error) {
 
 	userByAccount, errByAccount := user_repository.UserRepository{}.FindByAccount(req.Account)
 	if errByAccount != nil {

@@ -302,3 +302,9 @@ func VerifyEmailFormat(email string) bool {
 	reg := regexp.MustCompile(pattern)
 	return reg.MatchString(email)
 }
+
+// 获取时间类型时间字符串
+func TimeStrToDatetime(timeStr string) time.Time {
+	dateTime, _ := time.ParseInLocation("2006-01-02 15:04:05", timeStr, time.Local)
+	return dateTime
+}
