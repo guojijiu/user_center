@@ -37,12 +37,18 @@ func (UserRepository) Update(user *Model.UserAuth) (bool, error) {
 	return true, nil
 }
 
-func (UserRepository) List(req *ListUser.Req) ([]*Model.UserAuth, error) {
-	var userList []*Model.UserAuth
-	if err := db.Def().Limit(req.Size).Offset(req.Page).Find(&userList).Error; err != nil {
-		return userList, err
+func (UserRepository) List(req *ListUser.Req) ([]Model.UserAuth, int, error) {
+	var (
+		userList []Model.UserAuth
+		total    int64
+	)
+	offset, limit := tool.PageCoverLimit(req.Page, req.Size)
+	query := db.Def().Model(&Model.UserAuth{})
+	query.Count(&total)
+	if err := query.Offset(offset).Limit(limit).Find(&userList).Error; err != nil {
+		return userList, 0, err
 	}
-	return userList, nil
+	return userList, int(total), nil
 }
 
 func (UserRepository) Forbidden(req ForbiddenUser.Req) (bool, error) {

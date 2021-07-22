@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"user_center/app"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/ListUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/StoreUser"
 	"user_center/app/Http/Controllers/API/Admin/Responses"
 	"user_center/app/Model"
@@ -26,7 +27,7 @@ func TestMain(m *testing.M) {
 
 // go test -v test/Feature/Admin/User/user_test.go -test.run TestRegister
 func TestRegister(t *testing.T) {
-	w := httptest.Post("/api/admin/user/store", StoreUser.StoreReq{
+	w := httptest.Post("/api/admin/user/store", StoreUser.Req{
 		Account: genid.NewGeneratorData().Name,
 		Phone:   genid.NewGeneratorData().PhoneNum,
 		Email:   genid.NewGeneratorData().Email,
@@ -47,7 +48,7 @@ func TestFindPasswordToken(t *testing.T) {
 	err := db.Def().First(&user).Error
 	assert.Nil(t, err)
 	assert.NotEmpty(t, user.Phone)
-	resp := httptest.Get("/api/auth/find/password/token", StoreUser.StoreReq{
+	resp := httptest.Get("/api/auth/find/password/token", StoreUser.Req{
 		Phone: user.Phone,
 	})
 	t.Logf("resp: %s", resp.Body)
@@ -60,4 +61,13 @@ func TestFindPasswordToken(t *testing.T) {
 	} else {
 		assert.NotEmpty(t, body["find_password_token"])
 	}
+}
+
+// go test -v test/Feature/Admin/User/user_test.go -test.run TestList
+func TestList(t *testing.T) {
+	resp := httptest.Get("/api/admin/user/list", ListUser.Req{
+		Page: 1,
+		Size: 2,
+	})
+	fmt.Println(resp.Body)
 }

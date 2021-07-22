@@ -9,6 +9,15 @@ type Resp struct {
 	Email   string `comment:"邮箱" json:"email"`
 }
 
-func Item(user []*Model.UserAuth) []Resp {
-	return []Resp
+func Item(user []Model.UserAuth) []Resp {
+	var list []Resp
+	for _, v := range user {
+		var info Resp
+		info.ID = v.ID
+		info.Account = v.Account
+		info.Phone = v.Phone
+		info.Email = v.Email
+		list = append(list, info)
+	}
+	return list
 }

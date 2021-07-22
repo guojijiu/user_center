@@ -73,20 +73,25 @@ func Detail(c *gin.Context) {
 func GetList(c *gin.Context) {
 	var err error
 	var req ListUser.Req
-	if err = c.ShouldBindJSON(&req); err != nil {
+	if err = c.ShouldBindQuery(&req); err != nil {
 		glog.Default().Println("err=", err.Error())
 		Responses.BadReq(c, err)
 		return
 	}
 
-	res, err := user_application.List(&req)
+	data, total, err := user_application.List(&req)
 
 	if err != nil {
 		Responses.Failed(c, fmt.Sprintf("%s %s", "list user fail", err), nil)
 		return
 	}
 
-	Responses.Success(c, "success", ListUser.Item(res))
+	body := map[string]interface{}{
+		"data":  data,
+		"total": total,
+	}
+
+	Responses.Success(c, "success", body)
 }
 
 func Forbidden(c *gin.Context) {

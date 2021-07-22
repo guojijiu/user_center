@@ -308,3 +308,16 @@ func TimeStrToDatetime(timeStr string) time.Time {
 	dateTime, _ := time.ParseInLocation("2006-01-02 15:04:05", timeStr, time.Local)
 	return dateTime
 }
+
+// 分页转化
+func PageCoverLimit(page int, size int) (int, int) {
+	if page == 0 {
+		page = 1
+	}
+	if size == 0 {
+		size = 10
+	}
+	limit := size
+	offset := (page - 1) * size
+	return offset, limit
+}
