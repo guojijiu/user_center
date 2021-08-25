@@ -22,14 +22,14 @@ func Store(c *gin.Context) {
 		return
 	}
 
-	res, storeErr := user_application.Store(&req)
+	storeErr := user_application.Store(&req)
 
-	if res == false && storeErr != nil {
+	if storeErr != nil {
 		Responses.Failed(c, fmt.Sprintf("%s %s", "add user fail", storeErr), nil)
 		return
 	}
 
-	Responses.Success(c, "success", res)
+	Responses.Success(c, "success", nil)
 }
 
 func Update(c *gin.Context) {
@@ -41,14 +41,14 @@ func Update(c *gin.Context) {
 		return
 	}
 
-	res, err := user_application.Update(&req)
+	err = user_application.Update(&req)
 
-	if res == false && err != nil {
+	if err != nil {
 		Responses.Failed(c, fmt.Sprintf("%s %s", "update user fail", err), nil)
 		return
 	}
 
-	Responses.Success(c, "success", res)
+	Responses.Success(c, "success", nil)
 }
 
 func Detail(c *gin.Context) {
@@ -103,12 +103,12 @@ func Forbidden(c *gin.Context) {
 		return
 	}
 
-	res, storeErr := user_application.Forbidden(&req)
+	storeErr := user_application.Forbidden(&req)
 
-	if res == false && storeErr != nil {
+	if storeErr != nil {
 		Responses.Failed(c, fmt.Sprintf("%s %s", "forbidden user fail", storeErr), nil)
 		return
 	}
 
-	Responses.Success(c, "success", res)
+	Responses.Success(c, "success", nil)
 }

@@ -28,10 +28,12 @@ func TestMain(m *testing.M) {
 // go test -v test/Feature/Admin/User/user_test.go -test.run TestRegister
 func TestRegister(t *testing.T) {
 	w := httptest.Post("/api/admin/user/store", StoreUser.Req{
-		Account: genid.NewGeneratorData().Name,
-		Phone:   genid.NewGeneratorData().PhoneNum,
-		Email:   genid.NewGeneratorData().Email,
-		Passwd:  "123456",
+		Account:  genid.NewGeneratorData().Name,
+		Phone:    genid.NewGeneratorData().PhoneNum,
+		Email:    genid.NewGeneratorData().Email,
+		Passwd:   "123456",
+		Nickname: "zhangsan",
+		Birthday: "2021-11-12 00:00:00",
 	})
 	fmt.Println(w.Body)
 	//t.Logf("resp: %s", w.Body)

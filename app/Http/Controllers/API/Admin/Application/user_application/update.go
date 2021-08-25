@@ -7,15 +7,15 @@ import (
 	"user_center/app/Repository/user_repository"
 )
 
-func Update(req *UpdateUser.Req) (bool, error) {
+func Update(req *UpdateUser.Req) error {
 
 	detail, err := user_repository.UserRepository{}.Detail(req.ID)
 
 	if err != nil {
-		return false, err
+		return err
 	}
 	if detail.ID == 0 {
-		return false, errors.New("数据不存在或者已被删除。")
+		return errors.New("数据不存在或者已被删除。")
 	}
 	var user Model.UserAuth
 

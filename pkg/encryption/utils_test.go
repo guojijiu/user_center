@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
-	"user_permission/pkg/encryption"
+	"user_center/pkg/encryption"
 )
 
 var testCases = []struct {
