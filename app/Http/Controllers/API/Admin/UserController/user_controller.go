@@ -54,7 +54,7 @@ func Update(c *gin.Context) {
 func Detail(c *gin.Context) {
 	var err error
 	var req DetailUser.Req
-	if err = c.ShouldBindJSON(&req); err != nil {
+	if err = c.ShouldBindQuery(&req); err != nil {
 		glog.Default().Println("err=", err.Error())
 		Responses.BadReq(c, err)
 		return

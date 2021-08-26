@@ -104,3 +104,14 @@ func (UserRepository) FindByPhone(phone string) (*Model.UserAuth, error) {
 	}
 	return &user, nil
 }
+
+func (UserRepository) DetailOfAll(id uint) (*Model.UserAuth, error) {
+	var user Model.UserAuth
+	err := DB.Where("id = ? AND deleted_at is null", id).
+		Preload("UserInfo").
+		First(&user).Error
+	if err != nil && err.Error() != gorm.ErrRecordNotFound.Error() {
+		return nil, err
+	}
+	return &user, nil
+}

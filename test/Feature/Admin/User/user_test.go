@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"user_center/app"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/DetailUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ListUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/StoreUser"
 	"user_center/app/Http/Controllers/API/Admin/Responses"
@@ -43,6 +44,15 @@ func TestRegister(t *testing.T) {
 	//assert.Nil(t, err)
 	//assert.Equal(t, 0, r.Code)
 
+}
+
+// go test -v test/Feature/Admin/User/user_test.go -test.run TestDetail
+func TestDetail(t *testing.T) {
+
+	resp := httptest.Get("/api/admin/user/detail", DetailUser.Req{
+		ID: 8,
+	})
+	fmt.Println(resp.Body)
 }
 
 func TestFindPasswordToken(t *testing.T) {

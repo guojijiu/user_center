@@ -30,6 +30,15 @@ func (UserInfoRepository) Detail(id uint) (*Model.UserInformation, error) {
 	return &userInfo, nil
 }
 
+func (UserInfoRepository) FindByUserID(userID uint) (*Model.UserInformation, error) {
+	var userInfo Model.UserInformation
+	err := DB.Where("user_id = ? AND deleted_at is null", userID).First(&userInfo).Error
+	if err != nil && err.Error() != gorm.ErrRecordNotFound.Error() {
+		return nil, err
+	}
+	return &userInfo, nil
+}
+
 func (UserInfoRepository) Update(userInfo *Model.UserInformation) error {
 	if err := DB.Updates(userInfo).Error; err != nil {
 		return err

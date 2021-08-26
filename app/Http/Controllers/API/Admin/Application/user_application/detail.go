@@ -9,16 +9,14 @@ import (
 
 func Detail(req *DetailUser.Req) (*Model.UserAuth, error) {
 
-	detail, err := user_repository.UserRepository{}.Detail(req.ID)
+	detail, err := user_repository.UserRepository{}.DetailOfAll(req.ID)
 
-	var user *Model.UserAuth
 	if err != nil {
-		return user, err
+		return detail, err
 	}
 	if detail.ID == 0 {
-		return user, errors.New("数据不存在或者已被删除。")
+		return detail, errors.New("数据不存在或者已被删除。")
 	}
 
-	res, err := user_repository.UserRepository{}.Detail(req.ID)
-	return res, err
+	return detail, err
 }
