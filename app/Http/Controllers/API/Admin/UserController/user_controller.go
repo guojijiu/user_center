@@ -96,6 +96,7 @@ func GetList(c *gin.Context) {
 
 func Forbidden(c *gin.Context) {
 	var err error
+	// 参赛不能为bool，值为false的情况会认为不存在
 	var req ForbiddenUser.Req
 	if err = c.ShouldBindJSON(&req); err != nil {
 		glog.Default().Println("err=", err.Error())

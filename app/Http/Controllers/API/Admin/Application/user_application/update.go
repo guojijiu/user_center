@@ -63,13 +63,13 @@ func Update(req *UpdateUser.Req) error {
 	return db.Def().Transaction(func(tx *gorm.DB) error {
 		baseErr := user_repository.UserRepository{
 			DB: tx,
-		}.Update(&user)
+		}.Update(&user, req.ID)
 		if baseErr != nil {
 			return baseErr
 		}
 		infoError := user_info_repository.UserInfoRepository{
 			DB: tx,
-		}.Update(&userInfo)
+		}.Update(&userInfo, userInfoDetail.ID)
 		if infoError != nil {
 			return infoError
 		}

@@ -17,9 +17,9 @@ func Forbidden(req *ForbiddenUser.Req) error {
 		return errors.New("数据不存在或者已被删除。")
 	}
 
-	if req.IsForbidden == true {
-		return user_repository.UserRepository{}.Forbidden(*req)
+	if req.IsForbidden == 1 {
+		return user_repository.UserRepository{}.Forbidden(req.ID)
 	} else {
-		return user_repository.UserRepository{}.UnForbidden(*req)
+		return user_repository.UserRepository{}.UnForbidden(req.ID)
 	}
 }

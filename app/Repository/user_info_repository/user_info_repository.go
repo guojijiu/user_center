@@ -39,8 +39,9 @@ func (UserInfoRepository) FindByUserID(userID uint) (*Model.UserInformation, err
 	return &userInfo, nil
 }
 
-func (UserInfoRepository) Update(userInfo *Model.UserInformation) error {
-	if err := DB.Updates(userInfo).Error; err != nil {
+func (UserInfoRepository) Update(userInfoUpdate *Model.UserInformation, ID uint) error {
+	var userInfo Model.UserInformation
+	if err := DB.Model(&userInfo).Where("id = ?", ID).Updates(&userInfoUpdate).Error; err != nil {
 		return err
 	}
 	return nil

@@ -2,5 +2,5 @@ package ForbiddenUser
 
 type Req struct {
 	ID          uint `binding:"required" comment:"用户id" json:"id"`
-	IsForbidden bool `binding:"required" comment:"是否禁用，true：是，false：否" json:"is_forbidden"`
+	IsForbidden uint `binding:"required" validate:"required" comment:"是否禁用，1：是，2：否；" json:"is_forbidden"`
 }

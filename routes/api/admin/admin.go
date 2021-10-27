@@ -21,7 +21,7 @@ func LoadAdmin(router *gin.Engine) {
 			// 获取用户列表
 			user.GET("list", UserController.GetList)
 			// 禁用用户
-			user.DELETE("forbidden", UserController.Forbidden)
+			user.POST("forbidden", UserController.Forbidden)
 		}
 	}
 }

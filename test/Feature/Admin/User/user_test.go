@@ -3,13 +3,15 @@ package user_test
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/srlemon/gen-id"
+	genid "github.com/srlemon/gen-id"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"user_center/app"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/DetailUser"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/ForbiddenUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ListUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/StoreUser"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/UpdateUser"
 	"user_center/app/Http/Controllers/API/Admin/Responses"
 	"user_center/app/Model"
 	"user_center/boot"
@@ -26,14 +28,14 @@ func TestMain(m *testing.M) {
 	m.Run()
 }
 
-// go test -v test/Feature/Admin/User/user_test.go -test.run TestRegister
-func TestRegister(t *testing.T) {
+// go test -v test/Feature/Admin/User/user_test.go -test.run TestStore
+func TestStore(t *testing.T) {
 	w := httptest.Post("/api/admin/user/store", StoreUser.Req{
 		Account:  genid.NewGeneratorData().Name,
 		Phone:    genid.NewGeneratorData().PhoneNum,
 		Email:    genid.NewGeneratorData().Email,
 		Passwd:   "123456",
-		Nickname: "zhangsan",
+		Nickname: genid.NewGeneratorData().GeneratorName(),
 		Birthday: "2021-11-12 00:00:00",
 	})
 	fmt.Println(w.Body)
@@ -82,4 +84,26 @@ func TestList(t *testing.T) {
 		Size: 2,
 	})
 	fmt.Println(resp.Body)
+}
+
+// go test -v test/Feature/Admin/User/user_test.go -test.run TestUpdate
+func TestUpdate(t *testing.T) {
+	w := httptest.Call("PUT", "/api/admin/user/update", UpdateUser.Req{
+		ID:       3,
+		Account:  genid.NewGeneratorData().Name,
+		Phone:    genid.NewGeneratorData().PhoneNum,
+		Email:    genid.NewGeneratorData().Email,
+		Nickname: genid.NewGeneratorData().GeneratorName(),
+		Birthday: "2021-11-13 00:00:00",
+	})
+	fmt.Println(w.Body)
+}
+
+// go test -v test/Feature/Admin/User/user_test.go -test.run TestForbidden
+func TestForbidden(t *testing.T) {
+	w := httptest.Call("POST", "/api/admin/user/forbidden", ForbiddenUser.Req{
+		ID:          1,
+		IsForbidden: 2,
+	})
+	fmt.Println(w.Body)
 }
