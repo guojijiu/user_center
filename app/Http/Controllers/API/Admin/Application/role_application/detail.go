@@ -1,15 +1,15 @@
-package user_application
+package role_application
 
 import (
 	"errors"
-	"user_center/app/Http/Controllers/API/Admin/Context/User/DetailUser"
+	"user_center/app/Http/Controllers/API/Admin/Context/Role/DetailRole"
 	"user_center/app/Model"
 	"user_center/app/Repository"
 )
 
-func Detail(req *DetailUser.Req) (*Model.UserAuth, error) {
+func Detail(req *DetailRole.Req) (*Model.Role, error) {
 
-	detail, err := Repository.UserRepository{}.DetailOfAll(req.ID)
+	detail, err := Repository.RoleRepository{}.Detail(req.ID)
 
 	if err != nil {
 		return detail, err

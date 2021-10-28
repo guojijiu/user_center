@@ -1,4 +1,4 @@
-package UserController
+package Admin
 
 import (
 	"fmt"
@@ -13,7 +13,10 @@ import (
 	"user_center/pkg/glog"
 )
 
-func Store(c *gin.Context) {
+type UserController struct {
+}
+
+func (UserController) Store(c *gin.Context) {
 	var err error
 	var req StoreUser.Req
 	if err = c.ShouldBindJSON(&req); err != nil {
@@ -32,7 +35,7 @@ func Store(c *gin.Context) {
 	Responses.Success(c, "success", nil)
 }
 
-func Update(c *gin.Context) {
+func (UserController) Update(c *gin.Context) {
 	var err error
 	var req UpdateUser.Req
 	if err = c.ShouldBindJSON(&req); err != nil {
@@ -51,7 +54,7 @@ func Update(c *gin.Context) {
 	Responses.Success(c, "success", nil)
 }
 
-func Detail(c *gin.Context) {
+func (UserController) Detail(c *gin.Context) {
 	var err error
 	var req DetailUser.Req
 	if err = c.ShouldBindQuery(&req); err != nil {
@@ -70,7 +73,7 @@ func Detail(c *gin.Context) {
 	Responses.Success(c, "success", DetailUser.Item(res))
 }
 
-func GetList(c *gin.Context) {
+func (UserController) GetList(c *gin.Context) {
 	var err error
 	var req ListUser.Req
 	if err = c.ShouldBindQuery(&req); err != nil {
@@ -94,7 +97,7 @@ func GetList(c *gin.Context) {
 	Responses.Success(c, "success", body)
 }
 
-func Forbidden(c *gin.Context) {
+func (UserController) Forbidden(c *gin.Context) {
 	var err error
 	// 参赛不能为bool，值为false的情况会认为不存在
 	var req ForbiddenUser.Req

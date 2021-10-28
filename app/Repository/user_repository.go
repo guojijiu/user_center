@@ -1,20 +1,16 @@
-package user_repository
+package Repository
 
 import (
 	"gorm.io/gorm"
 	"time"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ListUser"
 	"user_center/app/Model"
-	"user_center/pkg/db"
 	"user_center/pkg/tool"
 )
 
 type UserRepository struct {
 	DB *gorm.DB
 }
-
-// DB 默认db库选择
-var DB = db.Def()
 
 func (UserRepository) Store(user *Model.UserAuth) error {
 	err := DB.Create(&user).Error

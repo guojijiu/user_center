@@ -5,15 +5,14 @@ import (
 	"gorm.io/gorm"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/UpdateUser"
 	"user_center/app/Model"
-	"user_center/app/Repository/user_info_repository"
-	"user_center/app/Repository/user_repository"
+	"user_center/app/Repository"
 	"user_center/pkg/db"
 	"user_center/pkg/tool"
 )
 
 func Update(req *UpdateUser.Req) error {
 
-	detail, err := user_repository.UserRepository{}.Detail(req.ID)
+	detail, err := Repository.UserRepository{}.Detail(req.ID)
 
 	if err != nil {
 		return err
@@ -21,7 +20,7 @@ func Update(req *UpdateUser.Req) error {
 	if detail.ID == 0 {
 		return errors.New("数据不存在或者已被删除。")
 	}
-	userInfoDetail, err := user_info_repository.UserInfoRepository{}.FindByUserID(req.ID)
+	userInfoDetail, err := Repository.UserInfoRepository{}.FindByUserID(req.ID)
 	if err != nil {
 		return nil
 	}
@@ -61,13 +60,13 @@ func Update(req *UpdateUser.Req) error {
 	}
 
 	return db.Def().Transaction(func(tx *gorm.DB) error {
-		baseErr := user_repository.UserRepository{
+		baseErr := Repository.UserRepository{
 			DB: tx,
 		}.Update(&user, req.ID)
 		if baseErr != nil {
 			return baseErr
 		}
-		infoError := user_info_repository.UserInfoRepository{
+		infoError := Repository.UserInfoRepository{
 			DB: tx,
 		}.Update(&userInfo, userInfoDetail.ID)
 		if infoError != nil {

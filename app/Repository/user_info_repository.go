@@ -1,17 +1,13 @@
-package user_info_repository
+package Repository
 
 import (
 	"gorm.io/gorm"
 	"user_center/app/Model"
-	"user_center/pkg/db"
 )
 
 type UserInfoRepository struct {
 	DB *gorm.DB
 }
-
-// 默认db库选择
-var DB = db.Def()
 
 func (UserInfoRepository) Store(userInfo *Model.UserInformation) error {
 	err := DB.Create(&userInfo).Error

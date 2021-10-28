@@ -3,12 +3,12 @@ package user_application
 import (
 	"errors"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ForbiddenUser"
-	"user_center/app/Repository/user_repository"
+	"user_center/app/Repository"
 )
 
 func Forbidden(req *ForbiddenUser.Req) error {
 
-	detail, err := user_repository.UserRepository{}.Detail(req.ID)
+	detail, err := Repository.UserRepository{}.Detail(req.ID)
 
 	if err != nil {
 		return err
@@ -18,8 +18,8 @@ func Forbidden(req *ForbiddenUser.Req) error {
 	}
 
 	if req.IsForbidden == 1 {
-		return user_repository.UserRepository{}.Forbidden(req.ID)
+		return Repository.UserRepository{}.Forbidden(req.ID)
 	} else {
-		return user_repository.UserRepository{}.UnForbidden(req.ID)
+		return Repository.UserRepository{}.UnForbidden(req.ID)
 	}
 }

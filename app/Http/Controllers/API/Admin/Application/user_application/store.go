@@ -5,8 +5,7 @@ import (
 	"gorm.io/gorm"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/StoreUser"
 	"user_center/app/Model"
-	"user_center/app/Repository/user_info_repository"
-	"user_center/app/Repository/user_repository"
+	"user_center/app/Repository"
 	"user_center/pkg/db"
 	"user_center/pkg/encryption"
 	"user_center/pkg/randc"
@@ -56,14 +55,14 @@ func Store(req *StoreUser.Req) error {
 	}
 
 	return db.Def().Transaction(func(tx *gorm.DB) error {
-		baseErr := user_repository.UserRepository{
+		baseErr := Repository.UserRepository{
 			DB: tx,
 		}.Store(&user)
 		if baseErr != nil {
 			return baseErr
 		}
 		userInfo.UserID = user.ID
-		infoErr := user_info_repository.UserInfoRepository{
+		infoErr := Repository.UserInfoRepository{
 			DB: tx,
 		}.Store(&userInfo)
 		if infoErr != nil {
@@ -74,7 +73,7 @@ func Store(req *StoreUser.Req) error {
 }
 
 func validateReq(req *StoreUser.Req) error {
-	userByAccount, errByAccount := user_repository.UserRepository{}.FindByAccount(req.Account)
+	userByAccount, errByAccount := Repository.UserRepository{}.FindByAccount(req.Account)
 	if errByAccount != nil {
 		return errByAccount
 	}
@@ -82,7 +81,7 @@ func validateReq(req *StoreUser.Req) error {
 		return errors.New("账号已存在。")
 	}
 
-	userByEmail, errByEmail := user_repository.UserRepository{}.FindByEmail(req.Email)
+	userByEmail, errByEmail := Repository.UserRepository{}.FindByEmail(req.Email)
 	if errByEmail != nil {
 		return errByEmail
 	}
@@ -90,7 +89,7 @@ func validateReq(req *StoreUser.Req) error {
 		return errors.New("邮箱已存在。")
 	}
 
-	userByPhone, errByPhone := user_repository.UserRepository{}.FindByPhone(req.Phone)
+	userByPhone, errByPhone := Repository.UserRepository{}.FindByPhone(req.Phone)
 	if errByPhone != nil {
 		return errByPhone
 	}
