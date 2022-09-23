@@ -17,6 +17,7 @@ var CMDmigrator = &command.Command{
 	Run:       RunMigration,
 }
 
+// go run main.go migrator
 func init() {
 	command.CMD.Register(CMDmigrator)
 }

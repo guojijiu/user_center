@@ -25,6 +25,8 @@ func (UserController) Store(c *gin.Context) {
 		return
 	}
 
+	//fmt.Printf("%+v", tool.JSONString(&req))
+
 	storeErr := user_application.Store(&req)
 
 	if storeErr != nil {

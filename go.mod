@@ -4,6 +4,7 @@ go 1.13
 
 require (
 	github.com/bwmarrin/snowflake v0.3.0
+	github.com/bxcodec/faker/v4 v4.0.0-beta.2 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.7.2
 	github.com/go-playground/locales v0.13.0

@@ -1,5 +1,5 @@
 package DetailRole
 
 type Req struct {
-	ID uint `binding:"required" comment:"用户id" json:"id" form:"id"`
+	ID uint `binding:"required" comment:"角色id" json:"id" form:"id"`
 }

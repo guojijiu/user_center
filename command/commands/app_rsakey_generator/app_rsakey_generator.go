@@ -14,8 +14,8 @@ var (
 
 var CMDRSAkeyGenerator = &command.Command{
 	UsageLine: "generate:rsakey",
-	Short:     "UIMS应用自动生成工具",
-	Long:      `generate:rsakey 命令会创建一个UIMS应用程序公私钥，用于加解密重要的敏感数据。`,
+	Short:     "user_center应用自动生成工具",
+	Long:      `generate:rsakey 命令会创建一个user_center应用程序公私钥，用于加解密重要的敏感数据。`,
 	Run:       createUIMSRSAKey,
 }
 
@@ -33,7 +33,7 @@ func createUIMSRSAKey(cmd *command.Command, args []string) int {
 		}
 	}
 
-	fmt.Println("开始生成uims app rsa key...")
+	fmt.Println("开始生成user_center app rsa key...")
 
 	//err := exec.Command("openssl", "genrsa", "-out", "./uims_app_rsa_private_key.pem", string(keyBitCount)).Run()
 	err := encryption.GenRSAkey(keyBitCount, isReGenerateKey)
@@ -41,7 +41,7 @@ func createUIMSRSAKey(cmd *command.Command, args []string) int {
 		fmt.Println(color.Red(err.Error()))
 	}
 
-	fmt.Println("生成uims app rsa key完毕！")
+	fmt.Println("生成user_center app rsa key完毕！")
 
 	return 0
 }

@@ -11,9 +11,9 @@ type Resp struct {
 	Remark   string `comment:"备注" json:"remark"`
 }
 
-func Item(user []Model.Role) []Resp {
+func Item(role []Model.Role) []Resp {
 	var list []Resp
-	for _, v := range user {
+	for _, v := range role {
 		var info Resp
 		info.ID = v.ID
 		info.ClientID = v.ClientID

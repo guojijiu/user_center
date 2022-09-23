@@ -31,12 +31,29 @@ func LoadAdmin(router *gin.Engine) {
 			role.POST("store", Admin.RoleController{}.Store)
 			// 更新角色数据
 			role.PUT("update", Admin.RoleController{}.Update)
-			// 获取橘色详情
+			// 获取角色详情
 			role.GET("detail", Admin.RoleController{}.Detail)
 			// 获取角色列表
 			role.GET("list", Admin.RoleController{}.GetList)
 			// 删除角色
 			role.DELETE("delete", Admin.RoleController{}.Delete)
+		}
+
+		// 权限相关
+		permission := AuthAPI.Group("/permission")
+		{
+			// 保存数据
+			permission.POST("store", Admin.PermissionController{}.Store)
+			// 更新数据
+			permission.PUT("update", Admin.PermissionController{}.Update)
+			// 获取详情数据
+			permission.GET("detail", Admin.PermissionController{}.Detail)
+			// 获取列表数据
+			permission.GET("list", Admin.PermissionController{}.GetList)
+			// 删除数据
+			permission.DELETE("delete", Admin.PermissionController{}.Delete)
+			// 获取权限数
+			permission.GET("tree", Admin.PermissionController{}.GetTree)
 		}
 	}
 }

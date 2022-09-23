@@ -9,8 +9,8 @@ import (
 	validator2 "user_center/app/validator"
 )
 
-const CodeSuccess = 0
-const CodeFailed = 1
+const CodeSuccess = 1
+const CodeFailed = 0
 const TokenInvalid = 401
 
 func JSON(c *gin.Context, code int, message string, body interface{}) {
