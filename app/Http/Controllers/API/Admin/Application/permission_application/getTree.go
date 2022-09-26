@@ -5,7 +5,7 @@ import (
 	"user_center/app/Repository"
 )
 
-func GetTree(req *GetTreePermission.Req) ([]GetTreePermission.Resp, error) {
+func GetTree(req *GetTreePermission.Req) ([]*GetTreePermission.Resp, error) {
 
 	data, err := Repository.PermissionRepository{}.GetAllByClientID(req.ClientID)
 
