@@ -37,6 +37,8 @@ func LoadAdmin(router *gin.Engine) {
 			role.GET("list", Admin.RoleController{}.GetList)
 			// 删除角色
 			role.DELETE("delete", Admin.RoleController{}.Delete)
+			// 绑定权限
+			role.POST("bind", Admin.RoleController{}.BindPermission)
 		}
 
 		// 权限相关

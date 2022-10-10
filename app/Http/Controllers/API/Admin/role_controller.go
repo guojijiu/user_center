@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"user_center/app/Http/Controllers/API/Admin/Application/role_application"
+	"user_center/app/Http/Controllers/API/Admin/Context/Role/BindPermission"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/DeleteRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/DetailRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/ListRole"
@@ -110,6 +111,25 @@ func (RoleController) Delete(c *gin.Context) {
 
 	if storeErr != nil {
 		Responses.Failed(c, fmt.Sprintf("%s %s", "delete role fail", storeErr), nil)
+		return
+	}
+
+	Responses.Success(c, "success", nil)
+}
+
+func (RoleController) BindPermission(c *gin.Context) {
+	var err error
+	var req BindPermission.Req
+	if err = c.ShouldBindJSON(&req); err != nil {
+		glog.Default().Println("err=", err.Error())
+		Responses.BadReq(c, err)
+		return
+	}
+
+	storeErr := role_application.Bind(&req)
+
+	if storeErr != nil {
+		Responses.Failed(c, fmt.Sprintf("%s %s", "role bind permission fail", storeErr), nil)
 		return
 	}
 

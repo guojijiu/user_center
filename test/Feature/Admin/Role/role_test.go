@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"testing"
 	"user_center/app"
+	"user_center/app/Http/Controllers/API/Admin/Context/Role/BindPermission"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/DeleteRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/DetailRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/ListRole"
@@ -71,4 +72,15 @@ func TestDelete(t *testing.T) {
 		ID: 1,
 	})
 	fmt.Println(w.Body)
+}
+
+// go test -v test/Feature/Admin/Role/role_test.go -test.run TestBindPermission
+func TestBindPermission(t *testing.T) {
+
+	w := httptest.Post("/api/admin/role/bind", BindPermission.Req{
+		ID:            1,
+		PermissionIDs: []uint{6, 7, 8, 9, 10},
+	})
+	fmt.Println(w.Body)
+
 }
