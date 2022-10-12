@@ -22,6 +22,12 @@ func LoadAdmin(router *gin.Engine) {
 			user.GET("list", Admin.UserController{}.GetList)
 			// 禁用用户
 			user.POST("forbidden", Admin.UserController{}.Forbidden)
+			// 绑定角色
+			user.POST("bind", Admin.UserController{}.BindRole)
+			// 获取用户绑定的角色
+			user.GET("get_bind_role", Admin.UserController{}.GetBindRole)
+			// 获取用户绑定的权限
+			user.GET("get_bind_permission", Admin.UserController{}.GetBindPermission)
 		}
 
 		// 角色相关

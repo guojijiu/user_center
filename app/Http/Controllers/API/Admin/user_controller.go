@@ -4,8 +4,11 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"user_center/app/Http/Controllers/API/Admin/Application/user_application"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/BindRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/DetailUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ForbiddenUser"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/GetBindPermission"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/GetBindRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ListUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/StoreUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/UpdateUser"
@@ -117,4 +120,64 @@ func (UserController) Forbidden(c *gin.Context) {
 	}
 
 	Responses.Success(c, "success", nil)
+}
+
+func (UserController) BindRole(c *gin.Context) {
+	var err error
+	// 参赛不能为bool，值为false的情况会认为不存在
+	var req BindRole.Req
+	if err = c.ShouldBindJSON(&req); err != nil {
+		glog.Default().Println("err=", err.Error())
+		Responses.BadReq(c, err)
+		return
+	}
+
+	err = user_application.Bind(&req)
+
+	if err != nil {
+		Responses.Failed(c, fmt.Sprintf("%s %s", "user bind role fail", err), nil)
+		return
+	}
+
+	Responses.Success(c, "success", nil)
+}
+
+func (UserController) GetBindRole(c *gin.Context) {
+	var err error
+	// 参赛不能为bool，值为false的情况会认为不存在
+	var req GetBindRole.Req
+	if err = c.ShouldBindQuery(&req); err != nil {
+		glog.Default().Println("err=", err.Error())
+		Responses.BadReq(c, err)
+		return
+	}
+
+	data, err := user_application.GetUserBindRole(&req)
+
+	if err != nil {
+		Responses.Failed(c, fmt.Sprintf("%s %s", "get user bind role fail", err), nil)
+		return
+	}
+
+	Responses.Success(c, "success", data)
+}
+
+func (UserController) GetBindPermission(c *gin.Context) {
+	var err error
+	// 参赛不能为bool，值为false的情况会认为不存在
+	var req GetBindPermission.Req
+	if err = c.ShouldBindQuery(&req); err != nil {
+		glog.Default().Println("err=", err.Error())
+		Responses.BadReq(c, err)
+		return
+	}
+
+	data, err := user_application.GetUserBindPermission(&req)
+
+	if err != nil {
+		Responses.Failed(c, fmt.Sprintf("%s %s", "get user permission fail", err), nil)
+		return
+	}
+
+	Responses.Success(c, "success", data)
 }

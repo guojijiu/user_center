@@ -7,8 +7,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"user_center/app"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/BindRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/DetailUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ForbiddenUser"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/GetBindRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ListUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/StoreUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/UpdateUser"
@@ -106,4 +108,31 @@ func TestForbidden(t *testing.T) {
 		IsForbidden: 2,
 	})
 	fmt.Println(w.Body)
+}
+
+// go test -v test/Feature/Admin/User/user_test.go -test.run TestBindRole
+func TestBindRole(t *testing.T) {
+	w := httptest.Call("POST", "/api/admin/user/bind", BindRole.Req{
+		ID:      1,
+		RoleIDs: []uint{1, 2},
+	})
+	fmt.Println(w.Body)
+}
+
+// go test -v test/Feature/Admin/User/user_test.go -test.run TestGetBindRole
+func TestGetBindRole(t *testing.T) {
+
+	resp := httptest.Get("/api/admin/user/get_bind_role", GetBindRole.Req{
+		ID: 1,
+	})
+	fmt.Println(resp.Body)
+}
+
+// go test -v test/Feature/Admin/User/user_test.go -test.run TestGetBindPermission
+func TestGetBindPermission(t *testing.T) {
+
+	resp := httptest.Get("/api/admin/user/get_bind_permission", GetBindRole.Req{
+		ID: 1,
+	})
+	fmt.Println(resp.Body)
 }

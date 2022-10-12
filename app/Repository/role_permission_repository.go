@@ -2,6 +2,7 @@ package Repository
 
 import (
 	"gorm.io/gorm"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/GetBindPermission"
 	"user_center/app/Model"
 )
 
@@ -45,4 +46,15 @@ func (RolePermissionRepository) DeleteByRoleID(roleID uint) error {
 		return err
 	}
 	return nil
+}
+
+func (RolePermissionRepository) GetPermissionByRoleIDs(roleIDs []uint) ([]GetBindPermission.Result, error) {
+	var result []GetBindPermission.Result
+	if err := DB.Table("uc_permission as p").Joins("left join uc_mapping_role_permission as mrp on p.id = mrp.permission_id").
+		Select("p.id,p.name,p.mark").
+		Where("mrp.role_id in ?", roleIDs).
+		Scan(&result).Error; err != nil {
+		return nil, err
+	}
+	return result, nil
 }
