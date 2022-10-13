@@ -9,6 +9,21 @@ import (
 func LoadAdmin(router *gin.Engine) {
 	AuthAPI := router.Group("/api/admin", Middleware.Middleware.Api...)
 	{
+		// 客户端相关
+		client := AuthAPI.Group("/client")
+		{
+			// 保存客户端数据
+			client.POST("store", Admin.ClientController{}.Store)
+			// 更新客户端数据
+			client.PUT("update", Admin.ClientController{}.Update)
+			// 获取客户端详情
+			client.GET("detail", Admin.ClientController{}.Detail)
+			// 获取客户端列表
+			client.GET("list", Admin.ClientController{}.GetList)
+			// 禁用客户端
+			client.POST("forbidden", Admin.ClientController{}.Forbidden)
+		}
+
 		// 用户相关
 		user := AuthAPI.Group("/user")
 		{
@@ -23,11 +38,15 @@ func LoadAdmin(router *gin.Engine) {
 			// 禁用用户
 			user.POST("forbidden", Admin.UserController{}.Forbidden)
 			// 绑定角色
-			user.POST("bind", Admin.UserController{}.BindRole)
+			user.POST("bind_role", Admin.UserController{}.BindRole)
 			// 获取用户绑定的角色
-			user.GET("get_bind_role", Admin.UserController{}.GetBindRole)
+			user.GET("bind_role", Admin.UserController{}.GetBindRole)
 			// 获取用户绑定的权限
-			user.GET("get_bind_permission", Admin.UserController{}.GetBindPermission)
+			user.GET("bind_permission", Admin.UserController{}.GetBindPermission)
+			// 绑定客户端
+			user.POST("bind_client", Admin.UserController{}.BindClient)
+			// 获取绑定的客户端
+			user.GET("bind_client", Admin.UserController{}.GetBindClient)
 		}
 
 		// 角色相关

@@ -7,9 +7,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"user_center/app"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/BindClient"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/BindRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/DetailUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ForbiddenUser"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/GetBindClient"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/GetBindRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ListUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/StoreUser"
@@ -112,7 +114,7 @@ func TestForbidden(t *testing.T) {
 
 // go test -v test/Feature/Admin/User/user_test.go -test.run TestBindRole
 func TestBindRole(t *testing.T) {
-	w := httptest.Call("POST", "/api/admin/user/bind", BindRole.Req{
+	w := httptest.Call("POST", "/api/admin/user/bind_role", BindRole.Req{
 		ID:      1,
 		RoleIDs: []uint{1, 2},
 	})
@@ -122,7 +124,7 @@ func TestBindRole(t *testing.T) {
 // go test -v test/Feature/Admin/User/user_test.go -test.run TestGetBindRole
 func TestGetBindRole(t *testing.T) {
 
-	resp := httptest.Get("/api/admin/user/get_bind_role", GetBindRole.Req{
+	resp := httptest.Get("/api/admin/user/bind_role", GetBindRole.Req{
 		ID: 1,
 	})
 	fmt.Println(resp.Body)
@@ -131,7 +133,25 @@ func TestGetBindRole(t *testing.T) {
 // go test -v test/Feature/Admin/User/user_test.go -test.run TestGetBindPermission
 func TestGetBindPermission(t *testing.T) {
 
-	resp := httptest.Get("/api/admin/user/get_bind_permission", GetBindRole.Req{
+	resp := httptest.Get("/api/admin/user/bind_permission", GetBindRole.Req{
+		ID: 1,
+	})
+	fmt.Println(resp.Body)
+}
+
+// go test -v test/Feature/Admin/User/user_test.go -test.run TestBindClient
+func TestBindClient(t *testing.T) {
+	w := httptest.Call("POST", "/api/admin/user/bind_client", BindClient.Req{
+		ID:        1,
+		ClientIDs: []uint{1, 2},
+	})
+	fmt.Println(w.Body)
+}
+
+// go test -v test/Feature/Admin/User/user_test.go -test.run TestGetBindClient
+func TestGetBindClient(t *testing.T) {
+
+	resp := httptest.Get("/api/admin/user/bind_client", GetBindClient.Req{
 		ID: 1,
 	})
 	fmt.Println(resp.Body)

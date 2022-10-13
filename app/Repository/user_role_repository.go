@@ -1,7 +1,6 @@
 package Repository
 
 import (
-	"fmt"
 	"gorm.io/gorm"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/GetBindRole"
 	"user_center/app/Model"
@@ -23,7 +22,6 @@ func (UserRoleRepository) BatchStore(userRole *[]Model.UserRole) error {
 				return err
 			}
 		}
-		fmt.Println(userRole)
 		if err := DB.Create(&userRole).Error; err != nil {
 			return err
 		}

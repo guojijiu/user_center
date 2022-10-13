@@ -6,9 +6,9 @@ import (
 	"user_center/app/Repository"
 )
 
-func Bind(req *BindRole.Req) error {
+func UserBindRole(req *BindRole.Req) error {
 
-	if err := validate(req.ID); err != nil {
+	if err := validateBindRole(req.ID); err != nil {
 		return err
 	}
 
@@ -24,7 +24,7 @@ func Bind(req *BindRole.Req) error {
 	return Repository.UserRoleRepository{}.BatchStore(&userRole)
 }
 
-func validate(userID uint) error {
+func validateBindRole(userID uint) error {
 	var _ *Model.UserAuth
 	var err error
 	_, err = Repository.UserRepository{}.Detail(userID)
