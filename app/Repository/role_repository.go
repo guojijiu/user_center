@@ -7,9 +7,7 @@ import (
 	"user_center/pkg/tool"
 )
 
-type RoleRepository struct {
-	DB *gorm.DB
-}
+type RoleRepository struct{}
 
 func (RoleRepository) Store(role *Model.Role) error {
 	err := DB.Create(&role).Error

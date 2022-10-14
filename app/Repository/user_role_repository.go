@@ -6,9 +6,7 @@ import (
 	"user_center/app/Model"
 )
 
-type UserRoleRepository struct {
-	DB *gorm.DB
-}
+type UserRoleRepository struct{}
 
 func (UserRoleRepository) BatchStore(userRole *[]Model.UserRole) error {
 	return DB.Transaction(func(tx *gorm.DB) error {
@@ -22,7 +20,7 @@ func (UserRoleRepository) BatchStore(userRole *[]Model.UserRole) error {
 				return err
 			}
 		}
-		if err := DB.Create(&userRole).Error; err != nil {
+		if err := tx.Create(&userRole).Error; err != nil {
 			return err
 		}
 

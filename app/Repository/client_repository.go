@@ -8,9 +8,7 @@ import (
 	"user_center/pkg/tool"
 )
 
-type ClientRepository struct {
-	DB *gorm.DB
-}
+type ClientRepository struct{}
 
 func (ClientRepository) Store(client *Model.Client) error {
 	err := DB.Create(&client).Error

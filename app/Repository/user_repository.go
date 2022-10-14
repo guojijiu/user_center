@@ -5,19 +5,23 @@ import (
 	"time"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ListUser"
 	"user_center/app/Model"
+	"user_center/pkg/db"
 	"user_center/pkg/tool"
 )
 
-type UserRepository struct {
-	DB *gorm.DB
-}
+type UserRepository struct{}
 
-func (UserRepository) Store(user *Model.UserAuth) error {
-	err := DB.Create(&user).Error
-	if err != nil {
-		return err
-	}
-	return nil
+func (UserRepository) Store(user *Model.UserAuth, userInfo *Model.UserInformation) error {
+	return db.Def().Transaction(func(tx *gorm.DB) error {
+		if err := tx.Create(&user).Error; err != nil {
+			return err
+		}
+		userInfo.UserID = user.ID
+		if err := tx.Create(&userInfo).Error; err != nil {
+			return err
+		}
+		return nil
+	})
 }
 
 func (UserRepository) Detail(id uint) (*Model.UserAuth, error) {
@@ -29,12 +33,19 @@ func (UserRepository) Detail(id uint) (*Model.UserAuth, error) {
 	return &user, nil
 }
 
-func (UserRepository) Update(userUpdate *Model.UserAuth, ID uint) error {
-	var user Model.UserAuth
-	if err := DB.Model(&user).Where("id = ?", ID).Updates(userUpdate).Error; err != nil {
-		return err
-	}
-	return nil
+func (UserRepository) Update(userUpdate *Model.UserAuth, userInfoUpdate *Model.UserInformation, ID uint) error {
+	return db.Def().Transaction(func(tx *gorm.DB) error {
+		var user Model.UserAuth
+		if err := DB.Model(&user).Where("id = ?", ID).Updates(userUpdate).Error; err != nil {
+			return err
+		}
+		var userInfo Model.UserInformation
+		if err := DB.Model(&userInfo).Where("user_id = ?", ID).Updates(&userInfoUpdate).Error; err != nil {
+			return err
+		}
+		return nil
+	})
+
 }
 
 func (UserRepository) List(req *ListUser.Req) ([]Model.UserAuth, int, error) {

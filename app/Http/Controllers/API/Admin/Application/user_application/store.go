@@ -2,11 +2,9 @@ package user_application
 
 import (
 	"errors"
-	"gorm.io/gorm"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/StoreUser"
 	"user_center/app/Model"
 	"user_center/app/Repository"
-	"user_center/pkg/db"
 	"user_center/pkg/encryption"
 	"user_center/pkg/randc"
 	"user_center/pkg/tool"
@@ -54,22 +52,7 @@ func Store(req *StoreUser.Req) error {
 		userInfo.PersonalProfile = req.PersonalProfile
 	}
 
-	return db.Def().Transaction(func(tx *gorm.DB) error {
-		baseErr := Repository.UserRepository{
-			DB: tx,
-		}.Store(&user)
-		if baseErr != nil {
-			return baseErr
-		}
-		userInfo.UserID = user.ID
-		infoErr := Repository.UserInfoRepository{
-			DB: tx,
-		}.Store(&userInfo)
-		if infoErr != nil {
-			return infoErr
-		}
-		return nil
-	})
+	return Repository.UserRepository{}.Store(&user, &userInfo)
 }
 
 func validateReq(req *StoreUser.Req) error {

@@ -7,9 +7,7 @@ import (
 	"user_center/pkg/tool"
 )
 
-type PermissionRepository struct {
-	DB *gorm.DB
-}
+type PermissionRepository struct{}
 
 func (PermissionRepository) Store(permission *Model.Permission) error {
 	err := DB.Create(&permission).Error

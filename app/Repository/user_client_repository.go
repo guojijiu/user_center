@@ -6,9 +6,7 @@ import (
 	"user_center/app/Model"
 )
 
-type UserClientRepository struct {
-	DB *gorm.DB
-}
+type UserClientRepository struct{}
 
 func (UserClientRepository) BatchStore(userClient *[]Model.UserClient) error {
 	return DB.Transaction(func(tx *gorm.DB) error {
@@ -22,7 +20,7 @@ func (UserClientRepository) BatchStore(userClient *[]Model.UserClient) error {
 				return err
 			}
 		}
-		if err := DB.Create(&userClient).Error; err != nil {
+		if err := tx.Create(&userClient).Error; err != nil {
 			return err
 		}
 

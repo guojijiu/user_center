@@ -6,9 +6,7 @@ import (
 	"user_center/app/Model"
 )
 
-type RolePermissionRepository struct {
-	DB *gorm.DB
-}
+type RolePermissionRepository struct{}
 
 func (RolePermissionRepository) BatchStore(rolePermission *[]Model.RolePermission) error {
 	return DB.Transaction(func(tx *gorm.DB) error {

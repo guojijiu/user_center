@@ -2,11 +2,9 @@ package user_application
 
 import (
 	"errors"
-	"gorm.io/gorm"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/UpdateUser"
 	"user_center/app/Model"
 	"user_center/app/Repository"
-	"user_center/pkg/db"
 	"user_center/pkg/tool"
 )
 
@@ -59,19 +57,5 @@ func Update(req *UpdateUser.Req) error {
 		userInfo.PersonalProfile = req.PersonalProfile
 	}
 
-	return db.Def().Transaction(func(tx *gorm.DB) error {
-		baseErr := Repository.UserRepository{
-			DB: tx,
-		}.Update(&user, req.ID)
-		if baseErr != nil {
-			return baseErr
-		}
-		infoError := Repository.UserInfoRepository{
-			DB: tx,
-		}.Update(&userInfo, userInfoDetail.ID)
-		if infoError != nil {
-			return infoError
-		}
-		return nil
-	})
+	return Repository.UserRepository{}.Update(&user, &userInfo, req.ID)
 }

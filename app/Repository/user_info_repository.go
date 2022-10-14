@@ -5,9 +5,7 @@ import (
 	"user_center/app/Model"
 )
 
-type UserInfoRepository struct {
-	DB *gorm.DB
-}
+type UserInfoRepository struct{}
 
 func (UserInfoRepository) Store(userInfo *Model.UserInformation) error {
 	err := DB.Create(&userInfo).Error
