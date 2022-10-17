@@ -10,6 +10,7 @@ import (
 	"user_center/app/Http/Controllers/API/Admin/Context/User/BindClient"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/BindRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/DetailUser"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/ExportUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ForbiddenUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/GetBindClient"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/GetBindRole"
@@ -155,4 +156,10 @@ func TestGetBindClient(t *testing.T) {
 		ID: 1,
 	})
 	fmt.Println(resp.Body)
+}
+
+// go test -v test/Feature/Admin/User/user_test.go -test.run TestExportUser
+func TestExportUser(t *testing.T) {
+	w := httptest.Call("POST", "/api/admin/user/export_user", ExportUser.Req{})
+	fmt.Println(w.Body)
 }

@@ -3,6 +3,7 @@ package Repository
 import (
 	"gorm.io/gorm"
 	"time"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/ExportUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ListUser"
 	"user_center/app/Model"
 	"user_center/pkg/db"
@@ -121,4 +122,22 @@ func (UserRepository) DetailOfAll(id uint) (*Model.UserAuth, error) {
 		return nil, err
 	}
 	return &user, nil
+}
+
+func (UserRepository) GetDataByExport(req *ExportUser.Req) ([]ExportUser.Resp, error) {
+	var result []ExportUser.Resp
+	query := DB.Table("uc_user_auth as ua").
+		Joins("left join uc_mapping_user_client as muc on ua.id = muc.user_id").
+		Joins("left join uc_client as c on c.id = muc.client_id").
+		Select("ua.id,ua.email,c.name as client_name,ua.created_at,ua.forbade_at")
+
+	if req.ClientID != 0 {
+		query.Where("muc.client_id = ?", req.ClientID)
+	}
+
+	if err := query.Scan(&result).Error; err != nil {
+		return nil, err
+	}
+
+	return result, nil
 }

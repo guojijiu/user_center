@@ -7,6 +7,7 @@ import (
 	"user_center/app/Http/Controllers/API/Admin/Context/User/BindClient"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/BindRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/DetailUser"
+	"user_center/app/Http/Controllers/API/Admin/Context/User/ExportUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/ForbiddenUser"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/GetBindClient"
 	"user_center/app/Http/Controllers/API/Admin/Context/User/GetBindPermission"
@@ -222,4 +223,24 @@ func (UserController) GetBindClient(c *gin.Context) {
 	}
 
 	Responses.Success(c, "success", data)
+}
+
+func (UserController) ExportUser(c *gin.Context) {
+	var err error
+	// 参赛不能为bool，值为false的情况会认为不存在
+	var req ExportUser.Req
+	if err = c.ShouldBindJSON(&req); err != nil {
+		glog.Default().Println("err=", err.Error())
+		Responses.BadReq(c, err)
+		return
+	}
+
+	filePath, err := user_application.ExportUserData(&req)
+
+	if err != nil {
+		Responses.Failed(c, fmt.Sprintf("%s %s", "export user data fail", err), nil)
+		return
+	}
+
+	Responses.Success(c, "success", filePath)
 }

@@ -47,6 +47,8 @@ func LoadAdmin(router *gin.Engine) {
 			user.POST("bind_client", Admin.UserController{}.BindClient)
 			// 获取绑定的客户端
 			user.GET("bind_client", Admin.UserController{}.GetBindClient)
+			// 导出用户数据
+			user.POST("export_user", Admin.UserController{}.ExportUser)
 		}
 
 		// 角色相关

@@ -18,3 +18,4 @@
 *.log
 
 .env
+storage

@@ -9,6 +9,7 @@ import (
 	"time"
 	"user_center/app"
 	"user_center/command"
+	"user_center/pkg/file"
 	"user_center/pkg/tool"
 )
 
@@ -28,7 +29,7 @@ func RunMigration(cmd *command.Command, args []string) int {
 	fileName := time.Now().Format("20060102_150405_") + tool.Camel2Case(name) + ".go"
 	p := path.Join(app.DatabasePath, "MigrationFile", fileName)
 
-	if tool.PathExist(p) {
+	if file.PathExist(p) {
 		cmd.Error(fmt.Sprintf("file %s aleardy exist", p))
 		return 1
 	}
