@@ -42,6 +42,20 @@ func LoadAdmin(router *gin.Engine) {
 			// 获取客户端绑定的组织
 			client.GET("bind_organize", Admin.ClientController{}.GetBindOrganize)
 		}
+		// 部门相关
+		department := AuthAPI.Group("/department")
+		{
+			// 保存部门数据
+			department.POST("store", Admin.DepartmentController{}.Store)
+			// 更新部门数据
+			department.PUT("update", Admin.DepartmentController{}.Update)
+			// 获取部门详情
+			department.GET("detail", Admin.DepartmentController{}.Detail)
+			// 获取部门列表
+			department.GET("list", Admin.DepartmentController{}.GetList)
+			// 禁用部门
+			department.POST("forbidden", Admin.DepartmentController{}.Forbidden)
+		}
 
 		// 用户相关
 		user := AuthAPI.Group("/user")
@@ -85,6 +99,10 @@ func LoadAdmin(router *gin.Engine) {
 			role.DELETE("delete", Admin.RoleController{}.Delete)
 			// 绑定权限
 			role.POST("bind", Admin.RoleController{}.BindPermission)
+			// 绑定部门
+			role.POST("bind_department", Admin.RoleController{}.BindDepartment)
+			// 获取角色绑定的部门
+			role.GET("bind_department", Admin.RoleController{}.GetBindDepartment)
 		}
 
 		// 权限相关

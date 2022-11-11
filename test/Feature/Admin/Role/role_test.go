@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"testing"
 	"user_center/app"
+	"user_center/app/Http/Controllers/API/Admin/Context/Role/BindDepartment"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/BindPermission"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/DeleteRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/DetailRole"
+	"user_center/app/Http/Controllers/API/Admin/Context/Role/GetBindDepartment"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/ListRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/StoreRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/UpdateRole"
@@ -83,4 +85,22 @@ func TestBindPermission(t *testing.T) {
 	})
 	fmt.Println(w.Body)
 
+}
+
+// go test -v test/Feature/Admin/Role/role_test.go -test.run TestBindDepartment
+func TestBindDepartment(t *testing.T) {
+	w := httptest.Call("POST", "/api/admin/role/bind_department", BindDepartment.Req{
+		ID:            1,
+		DepartmentIDs: []uint{1, 2},
+	})
+	fmt.Println(w.Body)
+}
+
+// go test -v test/Feature/Admin/Role/role_test.go -test.run TestGetBindDepartment
+func TestGetBindDepartment(t *testing.T) {
+
+	resp := httptest.Get("/api/admin/role/bind_department", GetBindDepartment.Req{
+		ID: 1,
+	})
+	fmt.Println(resp.Body)
 }

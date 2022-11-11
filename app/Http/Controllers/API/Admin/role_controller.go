@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"user_center/app/Http/Controllers/API/Admin/Application/role_application"
+	"user_center/app/Http/Controllers/API/Admin/Context/Role/BindDepartment"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/BindPermission"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/DeleteRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/DetailRole"
+	"user_center/app/Http/Controllers/API/Admin/Context/Role/GetBindDepartment"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/ListRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/StoreRole"
 	"user_center/app/Http/Controllers/API/Admin/Context/Role/UpdateRole"
@@ -134,4 +136,44 @@ func (RoleController) BindPermission(c *gin.Context) {
 	}
 
 	Responses.Success(c, "success", nil)
+}
+
+func (RoleController) BindDepartment(c *gin.Context) {
+	var err error
+	// 参赛不能为bool，值为false的情况会认为不存在
+	var req BindDepartment.Req
+	if err = c.ShouldBindJSON(&req); err != nil {
+		glog.Default().Println("err=", err.Error())
+		Responses.BadReq(c, err)
+		return
+	}
+
+	err = role_application.RoleBindDepartment(&req)
+
+	if err != nil {
+		Responses.Failed(c, fmt.Sprintf("%s %s", "role bind department fail", err), nil)
+		return
+	}
+
+	Responses.Success(c, "success", nil)
+}
+
+func (RoleController) GetBindDepartment(c *gin.Context) {
+	var err error
+	// 参赛不能为bool，值为false的情况会认为不存在
+	var req GetBindDepartment.Req
+	if err = c.ShouldBindQuery(&req); err != nil {
+		glog.Default().Println("err=", err.Error())
+		Responses.BadReq(c, err)
+		return
+	}
+
+	data, err := role_application.GetRoleBindDepartment(&req)
+
+	if err != nil {
+		Responses.Failed(c, fmt.Sprintf("%s %s", "get role bind department fail", err), nil)
+		return
+	}
+
+	Responses.Success(c, "success", data)
 }

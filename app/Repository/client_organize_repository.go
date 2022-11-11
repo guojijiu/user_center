@@ -29,7 +29,7 @@ func (ClientOrganizeRepository) BatchStore(model *[]Model.ClientOrganize) error 
 	})
 }
 
-func (ClientOrganizeRepository) GetBinOrganizeIDs(clientID uint) []uint {
+func (ClientOrganizeRepository) GetBindOrganizeIDs(clientID uint) []uint {
 	var result []uint
 	if err := DB.Model(&Model.ClientOrganize{}).Select("organize_id").Where("client_id = ?", clientID).Find(&result).Error; err != nil {
 		return nil

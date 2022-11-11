@@ -33,6 +33,8 @@ var MigrateFiles = []MigrateFile{
 	MigrationFile.CreateMappingRolePermissionTable{},
 	MigrationFile.CreateOrganizeTable{},
 	MigrationFile.CreateMappingClientOrganizeTable{},
+	MigrationFile.CreateDepartmentTable{},
+	MigrationFile.CreateMappingRoleDepartmentTable{},
 }
 
 // 获取需要迁移的 migrateFiles
