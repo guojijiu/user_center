@@ -9,6 +9,21 @@ import (
 func LoadAdmin(router *gin.Engine) {
 	AuthAPI := router.Group("/api/admin", Middleware.Middleware.Api...)
 	{
+		// 组织相关
+		organize := AuthAPI.Group("/organize")
+		{
+			// 保存组织数据
+			organize.POST("store", Admin.OrganizeController{}.Store)
+			// 更新组织数据
+			organize.PUT("update", Admin.OrganizeController{}.Update)
+			// 获取组织详情
+			organize.GET("detail", Admin.OrganizeController{}.Detail)
+			// 获取组织列表
+			organize.GET("list", Admin.OrganizeController{}.GetList)
+			// 禁用组织
+			organize.POST("forbidden", Admin.OrganizeController{}.Forbidden)
+		}
+
 		// 客户端相关
 		client := AuthAPI.Group("/client")
 		{
@@ -22,6 +37,10 @@ func LoadAdmin(router *gin.Engine) {
 			client.GET("list", Admin.ClientController{}.GetList)
 			// 禁用客户端
 			client.POST("forbidden", Admin.ClientController{}.Forbidden)
+			// 绑定组织
+			client.POST("bind_organize", Admin.ClientController{}.BindOrganize)
+			// 获取客户端绑定的组织
+			client.GET("bind_organize", Admin.ClientController{}.GetBindOrganize)
 		}
 
 		// 用户相关

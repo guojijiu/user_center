@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"user_center/app/Http/Controllers/API/Admin/Application/client_application"
+	"user_center/app/Http/Controllers/API/Admin/Context/Client/BindOrganize"
 	"user_center/app/Http/Controllers/API/Admin/Context/Client/DetailClient"
 	"user_center/app/Http/Controllers/API/Admin/Context/Client/ForbiddenClient"
+	"user_center/app/Http/Controllers/API/Admin/Context/Client/GetBindOrganize"
 	"user_center/app/Http/Controllers/API/Admin/Context/Client/ListClient"
 	"user_center/app/Http/Controllers/API/Admin/Context/Client/StoreClient"
 	"user_center/app/Http/Controllers/API/Admin/Context/Client/UpdateClient"
@@ -115,4 +117,44 @@ func (ClientController) Forbidden(c *gin.Context) {
 	}
 
 	Responses.Success(c, "success", nil)
+}
+
+func (ClientController) BindOrganize(c *gin.Context) {
+	var err error
+	// 参赛不能为bool，值为false的情况会认为不存在
+	var req BindOrganize.Req
+	if err = c.ShouldBindJSON(&req); err != nil {
+		glog.Default().Println("err=", err.Error())
+		Responses.BadReq(c, err)
+		return
+	}
+
+	err = client_application.ClientBindOrganize(&req)
+
+	if err != nil {
+		Responses.Failed(c, fmt.Sprintf("%s %s", "client bind organize fail", err), nil)
+		return
+	}
+
+	Responses.Success(c, "success", nil)
+}
+
+func (ClientController) GetBindOrganize(c *gin.Context) {
+	var err error
+	// 参赛不能为bool，值为false的情况会认为不存在
+	var req GetBindOrganize.Req
+	if err = c.ShouldBindQuery(&req); err != nil {
+		glog.Default().Println("err=", err.Error())
+		Responses.BadReq(c, err)
+		return
+	}
+
+	data, err := client_application.GetUserBindOrganize(&req)
+
+	if err != nil {
+		Responses.Failed(c, fmt.Sprintf("%s %s", "get client bind organize fail", err), nil)
+		return
+	}
+
+	Responses.Success(c, "success", data)
 }
