@@ -10,14 +10,15 @@ import (
 )
 
 var (
-	GinModel  string
-	Name      = os.Getenv("APP_NAME")
-	URL       = os.Getenv("APP_URL")
-	Env       = os.Getenv("APP_ENV")
-	APPKey    = os.Getenv("APP_KEY")
-	Debug     = env.DefaultGetBool("DEBUG", false)
-	Host      = os.Getenv("APP_HOST")
-	Database  = database{
+	GinModel string
+	Name     = os.Getenv("APP_NAME")
+	URL      = os.Getenv("APP_URL")
+	Env      = os.Getenv("APP_ENV")
+	APPKey   = os.Getenv("APP_KEY")
+	//Debug       = env.DefaultGetBool("DEBUG", false)
+	Host        = os.Getenv("APP_HOST")
+	CachePrefix = os.Getenv("CACHE_PREFIX")
+	Database    = database{
 		MySQL: map[string]MysqlConf{
 			"default": {
 				Host:        os.Getenv("DB_HOST"),

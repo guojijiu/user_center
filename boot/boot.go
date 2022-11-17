@@ -8,6 +8,7 @@ import (
 	"user_center/pkg/db"
 	"user_center/pkg/glog"
 	migrate2 "user_center/pkg/migrate"
+	"user_center/pkg/redis"
 	"user_center/pkg/storage"
 	"user_center/routes"
 )
@@ -25,6 +26,10 @@ func Boot() {
 	var err error
 	glog.Init()
 	storage.Init(app.StoragePath)
+
+	if _, err = redis.InitDef(); err != nil {
+		log.Panicf("Init Default Redis connection filed: %+v", err)
+	}
 
 	if _, err = db.InitDef(); err != nil {
 		log.Panicf("Init Default MySQL connection filed: %+v", err)
@@ -48,6 +53,7 @@ func Boot() {
 
 func Destroy() {
 	glog.Close()
+	redis.Close()
 }
 
 func migrate() {
