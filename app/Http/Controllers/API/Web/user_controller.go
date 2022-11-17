@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"user_center/app/Http/Controllers/API/Web/Application/user_application"
 	"user_center/app/Http/Controllers/API/Web/Context/User/GetCaptcha"
+	"user_center/app/Http/Controllers/API/Web/Context/User/Register"
 	"user_center/app/Http/Controllers/API/Web/Context/User/SendRegisterCode"
 	"user_center/app/Http/Controllers/API/Web/Responses"
 	"user_center/pkg/glog"
@@ -45,6 +46,25 @@ func (UserController) SendRegisterCode(c *gin.Context) {
 
 	if sendErr != nil {
 		Responses.Failed(c, fmt.Sprintf("%s %s", "send register code fail", sendErr), nil)
+		return
+	}
+
+	Responses.Success(c, "success", nil)
+}
+
+func (UserController) Register(c *gin.Context) {
+	var err error
+	var req Register.Req
+	if err = c.ShouldBindJSON(&req); err != nil {
+		glog.Default().Println("err=", err.Error())
+		Responses.BadReq(c, err)
+		return
+	}
+
+	sendErr := user_application.RegisterUser(&req)
+
+	if sendErr != nil {
+		Responses.Failed(c, fmt.Sprintf("%s %s", "register fail", sendErr), nil)
 		return
 	}
 

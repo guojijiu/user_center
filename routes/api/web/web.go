@@ -14,5 +14,7 @@ func LoadWeb(router *gin.Engine) {
 		noAuthAPI.GET("/captcha", Web.UserController{}.GetCaptcha)
 		// 发送注册激活码
 		noAuthAPI.POST("/send_register_code", Web.UserController{}.SendRegisterCode)
+		// 注册
+		noAuthAPI.PUT("/register", Web.UserController{}.Register)
 	}
 }
