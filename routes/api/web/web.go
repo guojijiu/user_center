@@ -16,5 +16,11 @@ func LoadWeb(router *gin.Engine) {
 		noAuthAPI.POST("/send_register_code", Web.UserController{}.SendRegisterCode)
 		// 注册
 		noAuthAPI.PUT("/register", Web.UserController{}.Register)
+		// 发送忘记验证码
+		noAuthAPI.POST("/send_forget_code", Web.UserController{}.SendForgetCode)
+		// 忘记验证码获取详情
+		noAuthAPI.GET("/detail_by_forget", Web.UserController{}.DetailByForget)
+		// 重置密码
+		noAuthAPI.POST("/reset_passwd", Web.UserController{}.ResetPasswd)
 	}
 }

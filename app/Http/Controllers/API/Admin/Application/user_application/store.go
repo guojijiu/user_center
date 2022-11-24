@@ -16,7 +16,7 @@ func Store(req *StoreUser.Req) error {
 		return validateErr
 	}
 
-	pwd, PassErr := encryption.BcryptHash(req.Passwd)
+	pwd, PassErr := encryption.BcryptPasswdHash(req.Passwd)
 	if PassErr != nil {
 		return PassErr
 	}

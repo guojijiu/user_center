@@ -1,19 +1,22 @@
-package encryption
+package Encryption
 
 import (
 	"fmt"
 	"testing"
+	"user_center/pkg/encryption"
 )
 
+// go test -v test/Feature/Pkg/Encryption/bcrypt_test.go -test.run TestBcryptHash
 func TestBcryptHash(t *testing.T) {
 	raw := "zxcvbnm,./"
-	hashV, err := BcryptHash(raw)
+	hashV, err := encryption.BcryptPasswdHash(raw)
 	if err != nil {
 		t.Fatal(err)
 	}
 	fmt.Println(hashV)
 }
 
+// go test -v test/Feature/Pkg/Encryption/bcrypt_test.go -test.run TestBcryptCheck
 func TestBcryptCheck(t *testing.T) {
 	//raw := "zxcvbnm,./"
 	//hashV := "$2y$04$1oIQ8nqyLOR.WWz8kAT9eup2M3wBEfo0hWfiT4kKeUDjJO/GaWvP."
@@ -31,7 +34,7 @@ func TestBcryptCheck(t *testing.T) {
 		{"zxcvbnm,./123456", "$2y$10$ATnVdwiIv8zesz9bztxFU.Ko9R6sYqQ6yIhkwmeWqSgtw8UeTqS4i", true},
 	}
 	for _, testCaseV := range testCaseVss {
-		isMatch := BcryptCheck(testCaseV.raw, testCaseV.hashV)
+		isMatch := encryption.BcryptPasswdCheck(testCaseV.raw, testCaseV.hashV)
 		if !isMatch {
 			t.Errorf("BcryptCheck(%s, %s) = %t want %t \n", testCaseV.raw, testCaseV.hashV, isMatch, testCaseV.expectedV)
 		}

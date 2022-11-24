@@ -1,4 +1,4 @@
-package encryption
+package Encryption
 
 import (
 	"fmt"
@@ -6,6 +6,7 @@ import (
 	"strings"
 	"testing"
 	"user_center/config"
+	"user_center/pkg/encryption"
 	"user_center/pkg/tool"
 )
 
@@ -16,39 +17,36 @@ var commonInput = []byte{
 	0xf6, 0x9f, 0x24, 0x45, 0xdf, 0x4f, 0x9b, 0x17, 0xad, 0x2b, 0x41, 0x7b, 0xe6, 0x6c, 0x37, 0x10,
 }
 
+// go test -v test/Feature/Pkg/Encryption/encrypter_aes_test.go -test.run TestStringSplitAfter
 func TestStringSplitAfter(t *testing.T) {
 	testCaseV := "QgvICXZ5WHDgL6GSuBN7RTN/QvVt1Z9lxd0GGPcVvhM="
-	testCaseFV := KEY_STR_PREFIX + testCaseV
-	s := strings.SplitAfter(testCaseFV, KEY_STR_PREFIX)
+	testCaseFV := encryption.KEY_STR_PREFIX + testCaseV
+	s := strings.SplitAfter(testCaseFV, encryption.KEY_STR_PREFIX)
 	tool.Dump(s)
 	assert.Equal(t, testCaseV, s[1])
 }
 
+// go test -v test/Feature/Pkg/Encryption/encrypter_aes_test.go -test.run TestParseKeyStrToBinaryByte
 func TestParseKeyStrToBinaryByte(t *testing.T) {
 	testCaseV := "QgvICXZ5WHDgL6GSuBN7RTN/QvVt1Z9lxd0GGPcVvhM="
-	testCaseFV := KEY_STR_PREFIX + testCaseV
+	testCaseFV := encryption.KEY_STR_PREFIX + testCaseV
 	//fmt.Println(testCaseFV)
-	r, err := ParseKeyStrToBinaryByte(testCaseFV)
+	r, err := encryption.ParseKeyStrToBinaryByte(testCaseFV)
 	if err != nil {
 		t.Error(err)
 	}
 	fmt.Printf("%v\n", r)
 }
 
+// go test -v test/Feature/Pkg/Encryption/encrypter_aes_test.go -test.run TestEncryptor_EncryptWithCBC
 func TestEncryptor_EncryptWithCBC(t *testing.T) {
 	testCases := []string{
 		"hello,world!",
-		"王磊",
-		"明朗",
-		"詹光",
-		"刘伟",
-		"LoveCoder!结算系统小组LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!",
-		"哇娃瓦挖袜哇蛙洼凹🐸",
-		string(commonInput),
+		//string(commonInput),
 	}
 	keyStr := config.APPKey
 	//keyStr := KEY_STR_PREFIX + base64.StdEncoding.EncodeToString([]byte("12345678901234567890123456789012"))
-	cipher, err := NewEncryptor(keyStr, CIPHER_AES_256_CBC)
+	cipher, err := encryption.NewEncryptor(keyStr, encryption.CIPHER_AES_256_CBC)
 	if err != nil {
 		t.Fatal(err)
 	}

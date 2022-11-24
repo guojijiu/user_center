@@ -1,4 +1,4 @@
-package encryption_test
+package Encryption_test
 
 import (
 	"crypto/aes"
@@ -13,7 +13,7 @@ var testCases = []struct {
 	padRawByte []byte
 }{
 	{
-		[]byte("wanglei"),
+		[]byte("aaa"),
 		[]byte{119, 97, 110, 103, 108, 101, 105, 9, 9, 9, 9, 9, 9, 9, 9, 9},
 	},
 	{

@@ -23,7 +23,7 @@ func SendRegister(req *SendRegisterCode.Req) error {
 func sendByEmail(email string) {
 	codeCache := &Cache.CodeCache{}
 	code := tool.RandomNumber(6)
-	codeCache.SetCacheKey("user:register_code", "123@qq.com").Store(code)
+	codeCache.SetCacheKey("user:register_code", email).Store(code)
 	now := time.Now().Format("2006-01-02 15:04:05")
 	tilte := "邮箱激活码"
 	body := fmt.Sprintf(`

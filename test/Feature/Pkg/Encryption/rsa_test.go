@@ -1,14 +1,15 @@
-package encryption
+package Encryption
 
 import (
 	"encoding/base64"
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"testing"
+	"user_center/pkg/encryption"
 )
 
 func TestGenRSAkey(t *testing.T) {
-	err := GenRSAkey(2048, false)
+	err := encryption.GenRSAkey(2048, false)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -21,13 +22,13 @@ func TestEnDecryptWithRSA(t *testing.T) {
 		[]byte("LoveCoder!结算系统小组LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!LoveCoder!"),
 	}
 	for _, testV := range testCases {
-		cipherText, err := EncryptWithRSA(testV)
+		cipherText, err := encryption.EncryptWithRSA(testV)
 		if err != nil {
 			t.Fatal(err)
 		}
 		fmt.Printf("[%s] 加密后得到 [%s] \n", testV, base64.StdEncoding.EncodeToString(cipherText))
 
-		raw, err := DecryptWithRSA(cipherText)
+		raw, err := encryption.DecryptWithRSA(cipherText)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -49,7 +50,7 @@ func TestDecryptWithRSA(t *testing.T) {
 
 	for _, testV := range testCases {
 		cipherTextByte, _ := base64.StdEncoding.DecodeString(testV.cipherText)
-		rawText, err := DecryptWithRSA(cipherTextByte)
+		rawText, err := encryption.DecryptWithRSA(cipherTextByte)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -66,7 +67,7 @@ func TestEncryptWithRSA(t *testing.T) {
 	}
 
 	for _, testV := range testCases {
-		cipherText, err := EncryptWithRSA([]byte(testV.rawText))
+		cipherText, err := encryption.EncryptWithRSA([]byte(testV.rawText))
 		if err != nil {
 			t.Fatal(err)
 		}
