@@ -1,4 +1,4 @@
-package jwt
+package jwtauth
 
 import (
 	"errors"
@@ -12,34 +12,33 @@ type JWT struct {
 	SigningKey []byte
 }
 
-// 一些常量
-var (
-	TokenExpired     error  = errors.New("Token is expired")
-	TokenNotValidYet error  = errors.New("Token not active yet")
-	TokenMalformed   error  = errors.New("That's not even a token")
-	TokenInvalid     error  = errors.New("Couldn't handle this token:")
-	SignKey          string = "UIMS-BACK-JWT"
-)
+// TokenExpired 一些常量
+var TokenExpired = errors.New("token is expired")
+var TokenNotValidYet = errors.New("token not active yet")
+var TokenMalformed = errors.New("that's not even a token")
+var TokenInvalid = errors.New("couldn't handle this token")
+var SignKey = "USER_CENTER_JWT"
 
-// 载荷，可以加一些自己需要的信息
+// CustomClaims 载荷，可以加一些自己需要的信息
 type CustomClaims struct {
-	Account string `json:"account"`
+	ID      uint   `common:"用户id" json:"id"`
+	Account string `common:"登录账号" json:"account"`
 	jwt.StandardClaims
 }
 
-// 新建一个jwt实例
+// NewJWT 新建一个jwt实例
 func NewJWT() *JWT {
 	return &JWT{
 		[]byte(GetSignKey()),
 	}
 }
 
-// 获取signKey
+// GetSignKey 获取signKey
 func GetSignKey() string {
 	return SignKey
 }
 
-// 这是SignKey
+// SetSignKey 这是SignKey
 func SetSignKey(key string) string {
 	SignKey = key
 	return SignKey
@@ -51,7 +50,7 @@ func (j *JWT) CreateToken(claims CustomClaims) (string, error) {
 	return token.SignedString(j.SigningKey)
 }
 
-// 解析Tokne
+// ParseToken 解析Token
 func (j *JWT) ParseToken(tokenString string) (*CustomClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return j.SigningKey, nil
@@ -77,7 +76,7 @@ func (j *JWT) ParseToken(tokenString string) (*CustomClaims, error) {
 	return nil, TokenInvalid
 }
 
-// 更新token
+// RefreshToken 更新token
 func (j *JWT) RefreshToken(tokenString string) (string, error) {
 	jwt.TimeFunc = func() time.Time {
 		return time.Unix(0, 0)

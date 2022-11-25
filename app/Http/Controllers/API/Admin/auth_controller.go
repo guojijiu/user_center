@@ -1,13 +1,13 @@
-package Web
+package Admin
 
 import (
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"user_center/app/Http/Controllers/API/Web/Application/auth_application"
-	"user_center/app/Http/Controllers/API/Web/Context/Auth/Login"
-	"user_center/app/Http/Controllers/API/Web/Context/Auth/Logout"
-	"user_center/app/Http/Controllers/API/Web/Responses"
+	"user_center/app/Http/Controllers/API/Admin/Application/auth_application"
+	"user_center/app/Http/Controllers/API/Admin/Context/Auth/Login"
+	"user_center/app/Http/Controllers/API/Admin/Context/Auth/Logout"
+	"user_center/app/Http/Controllers/API/Admin/Responses"
 	"user_center/pkg/glog"
 	jwtauth "user_center/pkg/jwt"
 )

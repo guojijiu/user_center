@@ -5,7 +5,7 @@ import "github.com/gin-gonic/gin"
 type middleware struct {
 	Def     []gin.HandlerFunc
 	Api     []gin.HandlerFunc
-	BackJWT []gin.HandlerFunc
+	JWTAuth []gin.HandlerFunc
 	CSRF    []gin.HandlerFunc
 	Cors    []gin.HandlerFunc
 }
@@ -20,8 +20,8 @@ func Init() {
 		ApiTestMiddleware(),
 	}
 
-	Middleware.BackJWT = []gin.HandlerFunc{
-		BackJWTMiddleware(),
+	Middleware.JWTAuth = []gin.HandlerFunc{
+		JWTMiddleware(),
 	}
 
 	Middleware.Cors = []gin.HandlerFunc{

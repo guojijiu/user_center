@@ -7,8 +7,16 @@ import (
 )
 
 func LoadAdmin(router *gin.Engine) {
-	AuthAPI := router.Group("/api/admin", Middleware.Middleware.Api...)
+	noAuthAPI := router.Group("/api/admin", Middleware.Middleware.Api...)
 	{
+		// 登录
+		noAuthAPI.POST("/login", Admin.AuthController{}.Login)
+	}
+	AuthAPI := router.Group("/api/admin", Middleware.Middleware.JWTAuth...)
+	{
+		// 登出
+		AuthAPI.POST("/logout", Admin.AuthController{}.Logout)
+
 		// 组织相关
 		organize := AuthAPI.Group("/organize")
 		{

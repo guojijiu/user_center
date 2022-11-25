@@ -22,5 +22,13 @@ func LoadWeb(router *gin.Engine) {
 		noAuthAPI.GET("/detail_by_forget", Web.UserController{}.DetailByForget)
 		// 重置密码
 		noAuthAPI.POST("/reset_passwd", Web.UserController{}.ResetPasswd)
+		// 登录
+		noAuthAPI.POST("/login", Web.AuthController{}.Login)
+	}
+	AuthAPI := router.Group("/api/web", Middleware.Middleware.Api...)
+	{
+		// 登出
+		AuthAPI.POST("/logout", Web.AuthController{}.Logout)
+
 	}
 }
