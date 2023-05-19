@@ -2,13 +2,14 @@ package cmd_template
 
 import (
 	"user_center/command"
-	"user_center/pkg/tool"
 	_ "user_center/command/commands/app_key_generator"
 	_ "user_center/command/commands/app_rsakey_generator"
 	_ "user_center/command/commands/make"
 	_ "user_center/command/commands/make_migration"
 	_ "user_center/command/commands/migrator"
 	_ "user_center/command/commands/server"
+	_ "user_center/command/commands/test"
+	"user_center/pkg/tool"
 )
 
 var usageTemplate = `user_center is a user_repository and authority management system based on THE GIN framework.

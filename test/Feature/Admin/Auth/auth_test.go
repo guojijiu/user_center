@@ -30,11 +30,11 @@ func TestLogin(t *testing.T) {
 	fmt.Println(resp.Body)
 }
 
-// go test -v test/Feature/Admin/Auth/auth_test.go -test.run TestLogin
+// go test -v test/Feature/Admin/Auth/auth_test.go -test.run TestLogout
 func TestLogout(t *testing.T) {
 	header := test.Header{
 		Key:   "token",
-		Value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjksImFjY291bnQiOiJhYWEiLCJleHAiOjE2NjkzODk2NTEsImlzcyI6IlVTRVJfQ0VOVEVSX1dFQiIsIm5iZiI6MTY2OTM2NzA1MX0.iDnesfmdHEMRvtxEGM3kcyMByjoRqjHg_4XgMsf-VoA",
+		Value: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjksImFjY291bnQiOiJhYWEiLCJleHAiOjE2Njk5MDQyMDIsImlzcyI6IlVTRVJfQ0VOVEVSX1dFQiIsIm5iZiI6MTY2OTg4MTYwMn0.TlMQUVMkXPQ6oTKb6DhqsiX932dP4kXAlK1PDBp9A7I",
 	}
 	resp := httptest.Post("/api/admin/logout", Logout.Req{}, header)
 	fmt.Println(resp.Body)
